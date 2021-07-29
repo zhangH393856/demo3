@@ -27,6 +27,8 @@ public class AdminService {
     UserTable1Mapper userTable1Mapper;
     @Autowired
     HouseTableMapper houseTableMapper;
+    @Autowired
+    FoodTableMapper foodTableMapper;
 
     /*
      * @author  zhangH
@@ -290,5 +292,9 @@ public class AdminService {
     public int deleteInformation(Integer id) {
 
         return userTable1Mapper.deleteByPrimaryKey(id);
+    }
+    //添加餐品
+    public int insertfood(FoodTable foodTable){
+        return foodTableMapper.insertSelective(foodTable);
     }
 }

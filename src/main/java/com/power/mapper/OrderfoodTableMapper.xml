@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.power.mapper.OrderfoodTableMapper" >
+  <resultMap id="BaseResultMap" type="com.power.pojo.OrderfoodTable" >
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="order_username" property="orderUsername" jdbcType="VARCHAR" />
+    <result column="order_foodname" property="orderFoodname" jdbcType="VARCHAR" />
+    <result column="order_foodcount" property="orderFoodcount" jdbcType="INTEGER" />
+    <result column="order_foodprice" property="orderFoodprice" jdbcType="DOUBLE" />
+    <result column="order_oneprice" property="orderOneprice" jdbcType="DOUBLE" />
+    <result column="order_state" property="orderState" jdbcType="INTEGER" />
+    <result column="order_adminstate" property="orderAdminstate" jdbcType="INTEGER" />
+    <result column="order_starttime" property="orderStarttime" jdbcType="VARCHAR" />
+    <result column="order_endtime" property="orderEndtime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    order_id, order_username, order_foodname, order_foodcount, order_foodprice, order_oneprice, 
+    order_state, order_adminstate, order_starttime, order_endtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.power.pojo.OrderfoodTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orderfood_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderfood_table
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderfood_table
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.power.pojo.OrderfoodTableExample" >
+    delete from orderfood_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.power.pojo.OrderfoodTable" >
+    insert into orderfood_table (order_id, order_username, order_foodname, 
+      order_foodcount, order_foodprice, order_oneprice, 
+      order_state, order_adminstate, order_starttime, 
+      order_endtime)
+    values (#{orderId,jdbcType=INTEGER}, #{orderUsername,jdbcType=VARCHAR}, #{orderFoodname,jdbcType=VARCHAR}, 
+      #{orderFoodcount,jdbcType=INTEGER}, #{orderFoodprice,jdbcType=DOUBLE}, #{orderOneprice,jdbcType=DOUBLE}, 
+      #{orderState,jdbcType=INTEGER}, #{orderAdminstate,jdbcType=INTEGER}, #{orderStarttime,jdbcType=VARCHAR}, 
+      #{orderEndtime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.power.pojo.OrderfoodTable" >
+    insert into orderfood_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderUsername != null" >
+        order_username,
+      </if>
+      <if test="orderFoodname != null" >
+        order_foodname,
+      </if>
+      <if test="orderFoodcount != null" >
+        order_foodcount,
+      </if>
+      <if test="orderFoodprice != null" >
+        order_foodprice,
+      </if>
+      <if test="orderOneprice != null" >
+        order_oneprice,
+      </if>
+      <if test="orderState != null" >
+        order_state,
+      </if>
+      <if test="orderAdminstate != null" >
+        order_adminstate,
+      </if>
+      <if test="orderStarttime != null" >
+        order_starttime,
+      </if>
+      <if test="orderEndtime != null" >
+        order_endtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderUsername != null" >
+        #{orderUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFoodname != null" >
+        #{orderFoodname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFoodcount != null" >
+        #{orderFoodcount,jdbcType=INTEGER},
+      </if>
+      <if test="orderFoodprice != null" >
+        #{orderFoodprice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderOneprice != null" >
+        #{orderOneprice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderAdminstate != null" >
+        #{orderAdminstate,jdbcType=INTEGER},
+      </if>
+      <if test="orderStarttime != null" >
+        #{orderStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderEndtime != null" >
+        #{orderEndtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.power.pojo.OrderfoodTableExample" resultType="java.lang.Integer" >
+    select count(*) from orderfood_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update orderfood_table
+    <set >
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderUsername != null" >
+        order_username = #{record.orderUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderFoodname != null" >
+        order_foodname = #{record.orderFoodname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderFoodcount != null" >
+        order_foodcount = #{record.orderFoodcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderFoodprice != null" >
+        order_foodprice = #{record.orderFoodprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.orderOneprice != null" >
+        order_oneprice = #{record.orderOneprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.orderState != null" >
+        order_state = #{record.orderState,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderAdminstate != null" >
+        order_adminstate = #{record.orderAdminstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStarttime != null" >
+        order_starttime = #{record.orderStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderEndtime != null" >
+        order_endtime = #{record.orderEndtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update orderfood_table
+    set order_id = #{record.orderId,jdbcType=INTEGER},
+      order_username = #{record.orderUsername,jdbcType=VARCHAR},
+      order_foodname = #{record.orderFoodname,jdbcType=VARCHAR},
+      order_foodcount = #{record.orderFoodcount,jdbcType=INTEGER},
+      order_foodprice = #{record.orderFoodprice,jdbcType=DOUBLE},
+      order_oneprice = #{record.orderOneprice,jdbcType=DOUBLE},
+      order_state = #{record.orderState,jdbcType=INTEGER},
+      order_adminstate = #{record.orderAdminstate,jdbcType=INTEGER},
+      order_starttime = #{record.orderStarttime,jdbcType=VARCHAR},
+      order_endtime = #{record.orderEndtime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.power.pojo.OrderfoodTable" >
+    update orderfood_table
+    <set >
+      <if test="orderUsername != null" >
+        order_username = #{orderUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFoodname != null" >
+        order_foodname = #{orderFoodname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFoodcount != null" >
+        order_foodcount = #{orderFoodcount,jdbcType=INTEGER},
+      </if>
+      <if test="orderFoodprice != null" >
+        order_foodprice = #{orderFoodprice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderOneprice != null" >
+        order_oneprice = #{orderOneprice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderAdminstate != null" >
+        order_adminstate = #{orderAdminstate,jdbcType=INTEGER},
+      </if>
+      <if test="orderStarttime != null" >
+        order_starttime = #{orderStarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderEndtime != null" >
+        order_endtime = #{orderEndtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.power.pojo.OrderfoodTable" >
+    update orderfood_table
+    set order_username = #{orderUsername,jdbcType=VARCHAR},
+      order_foodname = #{orderFoodname,jdbcType=VARCHAR},
+      order_foodcount = #{orderFoodcount,jdbcType=INTEGER},
+      order_foodprice = #{orderFoodprice,jdbcType=DOUBLE},
+      order_oneprice = #{orderOneprice,jdbcType=DOUBLE},
+      order_state = #{orderState,jdbcType=INTEGER},
+      order_adminstate = #{orderAdminstate,jdbcType=INTEGER},
+      order_starttime = #{orderStarttime,jdbcType=VARCHAR},
+      order_endtime = #{orderEndtime,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

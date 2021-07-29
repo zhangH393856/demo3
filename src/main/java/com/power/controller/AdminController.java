@@ -1,16 +1,20 @@
 package com.power.controller;
 
 import com.power.pojo.*;
-import com.power.service.AdminService;
-import com.power.service.RoomService;
-import com.power.service.UserService;
+import com.power.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @ClassName: AdminController
@@ -27,10 +31,14 @@ public class AdminController {
     UserService userService;
     @Autowired
     RoomService roomService;
+    @Autowired
+    FoodService foodService;
+    @Autowired
+    VipTypeService vipTypeService;
 
     @RequestMapping("login")
     //登录
-    public void index1(HttpSession session, Model model,UserTable1 userTable1) {
+    public void index1(HttpSession session, Model model, UserTable1 userTable1) {
 //        List<NoticeTable> noticeTables = adminService.selectNotice();
 //        Object name = session.getAttribute("name");
 //         if ("admin".equals(name)) {
@@ -45,9 +53,9 @@ public class AdminController {
 //            return "boss";
 //        } else {
 //            model.addAttribute("noticelist", noticeTables);
-//            return "user";
+//            return "login";
 //        }
-        session.setAttribute("name",userTable1.getUserName());
+        session.setAttribute("name", null);
     }
 
 
@@ -64,14 +72,21 @@ public class AdminController {
     //登录验证身份（管理员/用户/boss）
     @RequestMapping("loginuser")
     public String index(UserTable1 userTable1, Model model, HttpSession session) {
-        session.setAttribute("name",userTable1.getUserName());
-        String  name = (String) session.getAttribute("name");
+        session.setAttribute("name", userTable1.getUserName());
+        String name = (String) session.getAttribute("name");
         userTable1.setUserName(name);
         List<UserTable1> userlogin = userService.login(userTable1);
         List<NoticeTable> noticeTables = adminService.selectNotice();
         if ("admin".equals(userTable1.getUserName()) && "admin".equals(userTable1.getUserPwd())) {
+            //先查询出已支付餐费的用户信息
+            List<UserTable1> userTable1s = new ArrayList<>();
+            List<String> selectorders = foodService.selectorders();
+            //循环遍历出用户的个人信息
+            for (String name1 : selectorders) {
+                userTable1s.add(userService.selectNames(name1));
+            }
+            model.addAttribute("userlist", userTable1s);
             model.addAttribute("noticelist", noticeTables);
-            session.setAttribute("name", userTable1.getUserName());
             List<UserTable1> select = userService.selectState();
             model.addAttribute("list", select);
             return "index";
@@ -97,7 +112,7 @@ public class AdminController {
     @RequestMapping("register")
     public String register(UserTable1 userTable1, Model model) {
         int selectregister = userService.selectregister(userTable1);
-        if ("admin".equals(userTable1.getUserName())&&  "boss".equals(userTable1.getUserName())) {
+        if (!"admin".equals(userTable1.getUserName()) && !"boss".equals(userTable1.getUserName())) {
             if (selectregister > 0) {
                 userService.register(userTable1);
                 return "login";
@@ -217,10 +232,10 @@ public class AdminController {
         Object name = session.getAttribute("name");
         List<NoticeTable> noticeTables = adminService.selectNotice();
         if ("admin".equals(name)) {
-            model.addAttribute("noticelist", noticeTables);
-            List<UserTable1> select = userService.selectState();
-            model.addAttribute("list", select);
-            return "index";
+//            model.addAttribute("noticelist", noticeTables);
+//            List<UserTable1> select = userService.selectState();
+//            model.addAttribute("list", select);
+            return "redirect:/selectupfood";
         } else {
             model.addAttribute("noticelist", noticeTables);
             int selectcountpay = adminService.selectcountpay();
@@ -328,11 +343,27 @@ public class AdminController {
     }
 
     //活动设置（boss）
-    @RequestMapping("updateaction")
+    @RequestMapping("updateactions")
     public String updateaction(GiftTable giftTable, Model model) {
         adminService.updateGifts(giftTable);
         return "redirect:/open";
     }
+
+    //会员卡查询
+    @RequestMapping("selectvip")
+    public String selectvip(Model model) {
+        ViptypeTable viptypeTable = vipTypeService.selectVip();
+        model.addAttribute("vip", viptypeTable);
+        return "vipcard";
+    }
+
+    //活动设置（boss）
+    @RequestMapping("updateaction")
+    public String updatevip(ViptypeTable viptypeTable, Model model) {
+        vipTypeService.updateVip(viptypeTable);
+        return "redirect:/open";
+    }
+
 
     //未支付的用户账单
     @RequestMapping("openupdatepower")
@@ -527,5 +558,77 @@ public class AdminController {
         List<HouseTable> houseTables = roomService.selectHouse();
         model.addAttribute("list", houseTables);
         return "selecthouse";
+    }
+
+    @RequestMapping("insertFood")
+    public String insert(FoodTable foodTable, HttpSession session, Model model) throws IOException {
+        String filename = (String) session.getAttribute("file");
+        foodTable.setFoodFile(filename);
+        adminService.insertfood(foodTable);
+        session.removeAttribute("file");
+        model.addAttribute("msg", "添加餐品成功");
+        return "success1";
+    }
+
+    //添加餐品
+    @RequestMapping("openinsertfood1")
+    public String openinsertfood1() {
+        return "insertfood1";
+    }
+
+    @RequestMapping("insertfile")
+    public String insertfile(MultipartFile foodFile, HttpSession session) throws IOException {
+        String filepath = "D:\\demo3\\src\\main\\resources\\static\\dist\\img";
+        String FileName = foodFile.getOriginalFilename();
+        String newFileName = UUID.randomUUID() + FileName;
+        File targetFile = new File(filepath, newFileName);
+        foodFile.transferTo(targetFile);
+        session.setAttribute("file", newFileName);
+        return "insertfood2";
+    }
+
+    //餐品详情
+    @RequestMapping("selectFood")
+    @ResponseBody
+    public List<FoodTable> selectFood(Model model) {
+        List<FoodTable> foodTables = foodService.selectFood();
+        return foodTables;
+    }
+
+    @RequestMapping("openselectfood")
+    public String selectFood() {
+        return "selectfood";
+    }
+
+    @RequestMapping("selectupfood")
+    public String selectupfood(Model model) {
+        //先查询出已支付餐费的用户信息
+        List<UserTable1> userTable1s = new ArrayList<>();
+        List<String> selectorders = foodService.selectorders();
+        //循环遍历出用户的个人信息
+        for (String name : selectorders) {
+            userTable1s.add(userService.selectNames(name));
+        }
+        List<NoticeTable> noticeTables = adminService.selectNotice();
+        model.addAttribute("userlist", userTable1s);
+        model.addAttribute("noticelist", noticeTables);
+        List<UserTable1> select = userService.selectState();
+        model.addAttribute("list", select);
+        return "index";
+    }
+    //查询用户餐品订单
+    @RequestMapping("selectuserfood")
+    public  String selectuserfood(String name,Model model){
+        List<OrderfoodTable> orderfoodTables = foodService.selectOrders(name);
+        model.addAttribute("foodlist",orderfoodTables);
+        return "selectfood2";
+    }
+    //上餐
+    @RequestMapping("updateuserfood")
+    public  String updateuserfood(OrderfoodTable orderfoodTable,Model model){
+       foodService.updateadminstate(orderfoodTable);
+        List<OrderfoodTable> orderfoodTables = foodService.selectOrders(orderfoodTable.getOrderUsername());
+        model.addAttribute("foodlist",orderfoodTables);
+return "selectfood2";
     }
 }

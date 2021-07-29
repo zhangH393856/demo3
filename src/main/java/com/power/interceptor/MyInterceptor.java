@@ -19,7 +19,8 @@ public class MyInterceptor implements HandlerInterceptor {
        String name= (String) request.getSession().getAttribute("name");
         if (name==null){
             request.setAttribute("msg","请先登录！！");
-            request.getRequestDispatcher("login").forward(request,response);
+//            request.getRequestDispatcher("login").forward(request,response);
+            response.sendRedirect("login");
             return false;
         }
       return  true;

@@ -17,7 +17,7 @@ import java.util.List;
  **/
 @Configuration
 public class Myconf implements WebMvcConfigurer {
-    private static final List<String> EXCLUDE_PATH= Arrays.asList("/","/css/**","/js/**","/img/**","/modules/**");
+    private static final List<String> EXCLUDE_PATH= Arrays.asList("/","/dist/css/**","/dist/js/**","/dist/img/**","/dist/modules/**");
 
 
     @Override

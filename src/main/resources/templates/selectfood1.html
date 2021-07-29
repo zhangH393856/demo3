@@ -96,143 +96,53 @@
                 <h1 class="section-header">
                     <div>主页</div>
                 </h1>
-                <div class="row">
-                    <h1 class="section-header">
-                        <div style="color: #b3d7ff" >
-                            <span th:text="${action.getGiftTitle()}"></span>：<br>
-                            <span th:if="${action.getGift200()!=0}"> 充200元送<span th:text="${action.getGift200()}" ></span>元</br></span>
-                            <span th:if="${action.getGift500()!=0}"> 充500元送<span th:text="${action.getGift500()}" ></span>元</br></span>
-                            <span th:if="${action.getGift800()!=0}"> 充800元送<span th:text="${action.getGift800()}" ></span>元</br></span>
-                            <span th:if="${action.getGift1000()!=0}"> 充1000元送<span th:text="${action.getGift1000()}" ></span>元</br></span>
-                            <span th:if="${action.getGift1500()!=0}"> 充1500元送<span th:text="${action.getGift1500()}" ></span>元</br></span>
-                            <span th:if="${action.getGift2000()!=0}"> 充2000元送<span th:text="${action.getGift2000()}" ></span>元</br></span>
-
-                        </div>
-                    </h1>
-                </div>
-                <div class="row">
-                    <h1 class="section-header">
-                        <div style="color: #1e7e34">帐户充值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-                                th:href="@{openupdatemoney(userName=${session.name})}" class="btn btn-outline-success">其他金额</a>
-                        </div>
-                        </br>
-                    </h1>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=200)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>200</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=500)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>500</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=800)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>800</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=1000)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>1000</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=1500)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h1>1500</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-4 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=2000)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>2000</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-
-                </div>
 
                 <div class="card-body">
                     <div class="table-responsive">
+
                         <div class="card-header">
-                            <h4>公告</h4>
+
+                            <h4 >点餐</h4>
                         </div>
                         <table class="table table-striped">
-                            <tr>
+                            <tr onclick="pdfind()">
 
-                                <th>#</th>
-                                <th>标题</th>
-                                <th>内容</th>
-                                <th>发布时间</th>
+                                <th>订单号</th>
+                                <th>餐品名</th>
+                                <th>单价</th>
+                                <th>数量</th>
+                                <th>小计</th>
 
                             </tr>
-                            <tr th:each="notices:${noticelist}">
-                                <td th:text="${notices.noticeId}"></td>
-                                <td th:text="${notices.noticeTitle}"></td>
-                                <td><textarea th:text="${notices.noticeContent}" disabled="disabled"></textarea></td>
-                                <td th:text="${notices.noticeTime}"></td>
+                            <tbody id="pdtb">
+                            <tr th:each="foodlist:${orderlist}">
+
+                                <td th:text="${foodlist.orderId}"></td>
+                                <td th:text="${foodlist.orderFoodname}"></td>
+                                <td th:text="${foodlist.orderOneprice}"></td>
+                                <td th:text="${foodlist.orderFoodcount}"></td>
+                                <td th:text="${foodlist.orderFoodprice}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-striped">
+                            <tr th:if="${countcost!=0.0}">
+                                <th><h1>总计</h1></th>
+                                <th ><h1 style="display: inline-block" th:text="${countcost}"></h1><h1 style="display: inline-block">元</h1></th>
+                                <th> <a  href="/openfoodpay" class="btn btn-outline-info">结算</a></th>
+                            </tr>
+                            <tr th:if="${countcost==0.0}">
+                                <th><h1>您还没有点过餐呢，还没有订单</h1></th>
+                                <th> <a  href="/openselectfood" class="btn btn-outline-info">去点餐</a></th>
                             </tr>
                         </table>
                     </div>
+                    <div class="right-arrow">
+
+
+                    </div>
+
                 </div>
             </section>
         </div>
@@ -246,6 +156,7 @@
             <div class="footer-right"></div>
         </footer>
     </div>
+
 </div>
 
 <script src="dist/modules/jquery.min.js"></script>
@@ -295,6 +206,8 @@
             },
         }
     });
+
+
 </script>
 <script src="dist/js/scripts.js"></script>
 <script src="dist/js/custom.js"></script>

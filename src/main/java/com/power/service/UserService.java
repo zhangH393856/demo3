@@ -47,6 +47,12 @@ public class UserService {
         userTable1Example.createCriteria().andUserNameLike("%" + userTable1.getUserName() + "%");
         return userTable1Mapper.selectByExample(userTable1Example);
     }
+    //根据指定姓名查询
+    public UserTable1 selectNames(String name) {
+        UserTable1Example userTable1Example = new UserTable1Example();
+        userTable1Example.createCriteria().andUserNameEqualTo(name);
+      return userTable1Mapper.selectByExample(userTable1Example).get(0);
+    }
 
     //待入住用户
     public List<UserTable1> selectState() {
@@ -228,6 +234,35 @@ public class UserService {
             energyTable.setEnergyState("已支付");
             userTable1Mapper.updateByPrimaryKeySelective(userTable1);
             return energyTableMapper.updateByPrimaryKeySelective(energyTable);
+        } else {
+            return 0;
+        }
+    }
+    public int updatepay1( Double paymoney, UserTable1 userTable1) {
+        UserTable1Example userTable1Example = new UserTable1Example();
+        //获取该用户的余额
+        userTable1Example.createCriteria().andUserNameEqualTo(userTable1.getUserName());
+        List<UserTable1> userTable1s = userTable1Mapper.selectByExample(userTable1Example);
+        if (userTable1s.get(0).getUserBalance() > paymoney) {
+            //扣费
+            userTable1.setUserBalance((int) (userTable1s.get(0).getUserBalance() - paymoney));
+            userTable1.setUserId(userTable1s.get(0).getUserId());
+          return   userTable1Mapper.updateByPrimaryKeySelective(userTable1);
+        } else {
+            return 0;
+        }
+    }
+    //会员扣费
+    public int updatepayvip( Integer paymoney, UserTable1 userTable1) {
+        UserTable1Example userTable1Example = new UserTable1Example();
+        //获取该用户的余额
+        userTable1Example.createCriteria().andUserNameEqualTo(userTable1.getUserName());
+        List<UserTable1> userTable1s = userTable1Mapper.selectByExample(userTable1Example);
+        if (userTable1s.get(0).getUserBalance() > paymoney) {
+            //扣费
+            userTable1.setUserBalance(userTable1s.get(0).getUserBalance() - paymoney);
+            userTable1.setUserId(userTable1s.get(0).getUserId());
+          return   userTable1Mapper.updateByPrimaryKeySelective(userTable1);
         } else {
             return 0;
         }

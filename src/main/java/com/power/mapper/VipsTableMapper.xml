@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.power.mapper.VipsTableMapper" >
+  <resultMap id="BaseResultMap" type="com.power.pojo.VipsTable" >
+    <id column="vip_id" property="vipId" jdbcType="INTEGER" />
+    <result column="vip_username" property="vipUsername" jdbcType="VARCHAR" />
+    <result column="vip_phone" property="vipPhone" jdbcType="VARCHAR" />
+    <result column="vip_state" property="vipState" jdbcType="INTEGER" />
+    <result column="vip_starttime" property="vipStarttime" jdbcType="TIMESTAMP" />
+    <result column="vip_endtime" property="vipEndtime" jdbcType="TIMESTAMP" />
+    <result column="vip_starttimestring" property="vipStarttimestring" jdbcType="VARCHAR" />
+    <result column="vip_endtimestring" property="vipEndtimestring" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    vip_id, vip_username, vip_phone, vip_state, vip_starttime, vip_endtime, vip_starttimestring, 
+    vip_endtimestring
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.power.pojo.VipsTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vips_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from vips_table
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from vips_table
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.power.pojo.VipsTableExample" >
+    delete from vips_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.power.pojo.VipsTable" >
+    insert into vips_table (vip_id, vip_username, vip_phone, 
+      vip_state, vip_starttime, vip_endtime, 
+      vip_starttimestring, vip_endtimestring)
+    values (#{vipId,jdbcType=INTEGER}, #{vipUsername,jdbcType=VARCHAR}, #{vipPhone,jdbcType=VARCHAR}, 
+      #{vipState,jdbcType=INTEGER}, #{vipStarttime,jdbcType=TIMESTAMP}, #{vipEndtime,jdbcType=TIMESTAMP}, 
+      #{vipStarttimestring,jdbcType=VARCHAR}, #{vipEndtimestring,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.power.pojo.VipsTable" >
+    insert into vips_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vipId != null" >
+        vip_id,
+      </if>
+      <if test="vipUsername != null" >
+        vip_username,
+      </if>
+      <if test="vipPhone != null" >
+        vip_phone,
+      </if>
+      <if test="vipState != null" >
+        vip_state,
+      </if>
+      <if test="vipStarttime != null" >
+        vip_starttime,
+      </if>
+      <if test="vipEndtime != null" >
+        vip_endtime,
+      </if>
+      <if test="vipStarttimestring != null" >
+        vip_starttimestring,
+      </if>
+      <if test="vipEndtimestring != null" >
+        vip_endtimestring,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vipId != null" >
+        #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="vipUsername != null" >
+        #{vipUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="vipPhone != null" >
+        #{vipPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="vipState != null" >
+        #{vipState,jdbcType=INTEGER},
+      </if>
+      <if test="vipStarttime != null" >
+        #{vipStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipEndtime != null" >
+        #{vipEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipStarttimestring != null" >
+        #{vipStarttimestring,jdbcType=VARCHAR},
+      </if>
+      <if test="vipEndtimestring != null" >
+        #{vipEndtimestring,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.power.pojo.VipsTableExample" resultType="java.lang.Integer" >
+    select count(*) from vips_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update vips_table
+    <set >
+      <if test="record.vipId != null" >
+        vip_id = #{record.vipId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vipUsername != null" >
+        vip_username = #{record.vipUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipPhone != null" >
+        vip_phone = #{record.vipPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipState != null" >
+        vip_state = #{record.vipState,jdbcType=INTEGER},
+      </if>
+      <if test="record.vipStarttime != null" >
+        vip_starttime = #{record.vipStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.vipEndtime != null" >
+        vip_endtime = #{record.vipEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.vipStarttimestring != null" >
+        vip_starttimestring = #{record.vipStarttimestring,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipEndtimestring != null" >
+        vip_endtimestring = #{record.vipEndtimestring,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update vips_table
+    set vip_id = #{record.vipId,jdbcType=INTEGER},
+      vip_username = #{record.vipUsername,jdbcType=VARCHAR},
+      vip_phone = #{record.vipPhone,jdbcType=VARCHAR},
+      vip_state = #{record.vipState,jdbcType=INTEGER},
+      vip_starttime = #{record.vipStarttime,jdbcType=TIMESTAMP},
+      vip_endtime = #{record.vipEndtime,jdbcType=TIMESTAMP},
+      vip_starttimestring = #{record.vipStarttimestring,jdbcType=VARCHAR},
+      vip_endtimestring = #{record.vipEndtimestring,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.power.pojo.VipsTable" >
+    update vips_table
+    <set >
+      <if test="vipUsername != null" >
+        vip_username = #{vipUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="vipPhone != null" >
+        vip_phone = #{vipPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="vipState != null" >
+        vip_state = #{vipState,jdbcType=INTEGER},
+      </if>
+      <if test="vipStarttime != null" >
+        vip_starttime = #{vipStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipEndtime != null" >
+        vip_endtime = #{vipEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipStarttimestring != null" >
+        vip_starttimestring = #{vipStarttimestring,jdbcType=VARCHAR},
+      </if>
+      <if test="vipEndtimestring != null" >
+        vip_endtimestring = #{vipEndtimestring,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.power.pojo.VipsTable" >
+    update vips_table
+    set vip_username = #{vipUsername,jdbcType=VARCHAR},
+      vip_phone = #{vipPhone,jdbcType=VARCHAR},
+      vip_state = #{vipState,jdbcType=INTEGER},
+      vip_starttime = #{vipStarttime,jdbcType=TIMESTAMP},
+      vip_endtime = #{vipEndtime,jdbcType=TIMESTAMP},
+      vip_starttimestring = #{vipStarttimestring,jdbcType=VARCHAR},
+      vip_endtimestring = #{vipEndtimestring,jdbcType=VARCHAR}
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -2,12 +2,16 @@ package com.power.controller;
 
 import com.power.pojo.*;
 import com.power.service.AdminService;
+import com.power.service.FoodService;
 import com.power.service.UserService;
+import com.power.service.VipTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +30,10 @@ public class UserController {
     UserService userService;
     @Autowired
     AdminService adminService;
+    @Autowired
+    FoodService foodService;
+    @Autowired
+    VipTypeService vipTypeService;
 
     //查询个人信息
     @RequestMapping("userselectInfo")
@@ -120,7 +128,17 @@ public class UserController {
             return "payinfo";
         }
     }
-
+//会员扣费
+@RequestMapping("updatepayvip")
+public String updatepayvip(EnergyTable energyTable, Model model, Integer paymoney, UserTable1 userTable1) {
+    int updatepay = userService.updatepay(energyTable, paymoney, userTable1);
+    if (updatepay > 0) {
+        return "redirect:/openuser1";
+    } else {
+        model.addAttribute("msg", "帐户余额不足，请充值后再缴费");
+        return "payinfo";
+    }
+}
     //申请入住
     @RequestMapping("applyhouse")
     public String applyhouse(String name, Model model) {
@@ -149,5 +167,86 @@ public class UserController {
             return "payinfo";
         }
 
+    }
+    @RequestMapping("insertOrderFood")
+    @ResponseBody
+    //点餐（增加份数）
+    public Model insertOrderFood(HttpSession session,OrderfoodTable orderfoodTable,Model model){
+        foodService.insertOrderFood((String) session.getAttribute("name"),orderfoodTable);
+      return   model.addAttribute("msg","1");
+    }
+    @RequestMapping("deleteOrderFood")
+    @ResponseBody
+    //取消点餐（减少份数）
+    public Model deleteOrderFood(HttpSession session,OrderfoodTable orderfoodTable,Model model){
+        foodService.deleteOrderFood((String) session.getAttribute("name"),orderfoodTable);
+        return   model.addAttribute("msg","1");
+    }
+    @RequestMapping("openselectvip")
+    public String selectvip(){
+        return "selectvip";
+    }
+    //查询早餐购物车
+    @RequestMapping("openselectfood1")
+    public String openselectfood1(HttpSession session,Model model){
+        List<OrderfoodTable> name = foodService.selectOrder((String) session.getAttribute("name"));
+        Double countcost= foodService.countAll((String) session.getAttribute("name"));
+        model.addAttribute("orderlist",name);
+        model.addAttribute("countcost",countcost);
+        return "selectfood1";
+    }
+    //结算
+    @RequestMapping("openfoodpay")
+    public String openfoodpay(HttpSession session,Model model){
+        Double countcost= foodService.countAll((String) session.getAttribute("name"));
+        model.addAttribute("countcost",countcost);
+        return "foodpay";
+    }
+    //结算
+    @RequestMapping("updatepay1")
+    public String updatepay1( Model model, Double paymoney, UserTable1 userTable1,HttpSession session) {
+        userTable1.setUserName((String) session.getAttribute("name"));
+        int updatepay = userService.updatepay1(paymoney, userTable1);
+        if (updatepay > 0) {
+            foodService.foodstate((String) session.getAttribute("name"));
+            return "redirect:/openuser1";
+        } else {
+            model.addAttribute("msg", "帐户余额不足，请充值后再缴费");
+            return "payinfo";
+        }
+    }
+//已上餐
+    @RequestMapping("yesfood")
+    public String  yesfood(String name,Model model){
+        List<OrderfoodTable> orderfoodTables = foodService.selectOrder1(name);
+        model.addAttribute("foodlist",orderfoodTables);
+        return "selectfood2";
+    }
+    //未上餐
+    @RequestMapping("nofood")
+    public String  nofood(String name,Model model){
+        List<OrderfoodTable> orderfoodTables = foodService.selectOrders(name);
+        model.addAttribute("foodlist",orderfoodTables);
+        return "selectfood2";
+    }
+    //会员缴费
+    @RequestMapping("updatevip")
+    public String updatevip( Model model, Double paymoney, UserTable1 userTable1,HttpSession session) {
+        userTable1.setUserName((String) session.getAttribute("name"));
+        int updatepay = userService.updatepay1(paymoney, userTable1);
+        if (updatepay > 0) {
+            foodService.foodstate((String) session.getAttribute("name"));
+            return "redirect:/openuser1";
+        } else {
+            model.addAttribute("msg", "帐户余额不足，请充值后再缴费");
+            return "payinfo";
+        }
+    }
+    //会员缴费单
+    @RequestMapping("selectCardMoney")
+    public String   selectCardMoney(String name,Model model){
+        List<Double> doubles = vipTypeService.selectVipMoney(name);
+        model.addAttribute("countcost",doubles.get(0).doubleValue());
+        return "foodpay";
     }
 }

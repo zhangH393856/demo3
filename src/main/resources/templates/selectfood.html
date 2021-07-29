@@ -96,140 +96,43 @@
                 <h1 class="section-header">
                     <div>主页</div>
                 </h1>
-                <div class="row">
-                    <h1 class="section-header">
-                        <div style="color: #b3d7ff" >
-                            <span th:text="${action.getGiftTitle()}"></span>：<br>
-                            <span th:if="${action.getGift200()!=0}"> 充200元送<span th:text="${action.getGift200()}" ></span>元</br></span>
-                            <span th:if="${action.getGift500()!=0}"> 充500元送<span th:text="${action.getGift500()}" ></span>元</br></span>
-                            <span th:if="${action.getGift800()!=0}"> 充800元送<span th:text="${action.getGift800()}" ></span>元</br></span>
-                            <span th:if="${action.getGift1000()!=0}"> 充1000元送<span th:text="${action.getGift1000()}" ></span>元</br></span>
-                            <span th:if="${action.getGift1500()!=0}"> 充1500元送<span th:text="${action.getGift1500()}" ></span>元</br></span>
-                            <span th:if="${action.getGift2000()!=0}"> 充2000元送<span th:text="${action.getGift2000()}" ></span>元</br></span>
-
-                        </div>
-                    </h1>
-                </div>
-                <div class="row">
-                    <h1 class="section-header">
-                        <div style="color: #1e7e34">帐户充值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
-                                th:href="@{openupdatemoney(userName=${session.name})}" class="btn btn-outline-success">其他金额</a>
-                        </div>
-                        </br>
-                    </h1>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=200)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>200</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=500)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>500</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=800)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>800</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=1000)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>1000</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=1500)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h1>1500</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-sm-4 col-lg-2">
-                        <a th:href="@{openupdatemoney(userName=${session.name},money=2000)}">
-                            <div class="card card-sm bg-success">
-                                <div class="card-icon">
-                                    <i class="ion ion-social-yen"></i>
-                                </div>
-                                <div class="card-wrap">
-
-                                    <div class="card-header">
-                                        <h1>2000</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-
-                </div>
 
                 <div class="card-body">
                     <div class="table-responsive">
                         <div class="card-header">
-                            <h4>公告</h4>
+                            <h4 onclick="pdfind()">刷新</h4>
                         </div>
                         <table class="table table-striped">
-                            <tr>
+                            <tr onclick="pdfind()">
 
                                 <th>#</th>
-                                <th>标题</th>
-                                <th>内容</th>
-                                <th>发布时间</th>
+                                <th>餐品名</th>
+                                <th>单价</th>
+                                <th>数量</th>
+                                <th>操作</th>
 
                             </tr>
-                            <tr th:each="notices:${noticelist}">
-                                <td th:text="${notices.noticeId}"></td>
-                                <td th:text="${notices.noticeTitle}"></td>
-                                <td><textarea th:text="${notices.noticeContent}" disabled="disabled"></textarea></td>
-                                <td th:text="${notices.noticeTime}"></td>
+                            <tbody  id="pdtb" >
+<!--                            <tr th:each="foodlist:${food}" >-->
+<!--                                <td width="300px"><img style="width: 50%"  th:src="${(foodlist.foodFile != null && !#strings.isEmpty(foodlist.foodFile)) ? 'dist/img/'+foodlist.foodFile : 'dist/img/back1.jpg'}"/></td>-->
+<!--                                <td th:text="${foodlist.foodName}"></td>-->
+<!--                                <td th:text="${foodlist.foodCost}"></td>-->
+<!--                                <td th:text="${foodlist.foodCost}"></td>-->
+<!--                                <td> <a href="#" style="display: inline-block"  onclick=""-->
+<!--                                        class="btn btn-success btn-shadow btn-round">-->
+<!--                                    <i class="ion ion-minus-round"></i>-->
+<!--                                </a>-->
+<!--                                    <a href="#"-->
+<!--                                       class="btn btn-danger btn-shadow btn-round">-->
+<!--                                        <i class="ion ion-plus-round"></i>-->
+<!--                                    </a>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <tr>
+                                <th> <a  href="/openselectfood1" class="btn btn-outline-info">下一步</a></th>
                             </tr>
                         </table>
                     </div>
@@ -246,6 +149,7 @@
             <div class="footer-right"></div>
         </footer>
     </div>
+
 </div>
 
 <script src="dist/modules/jquery.min.js"></script>
@@ -295,7 +199,87 @@
             },
         }
     });
+
+
 </script>
+<script>
+    // $(document).ready(pdfind());
+    function pdfind(){
+        var tm= $("#pdtm").val();
+        var nj= $("#pdnj").val();
+        var aptb;
+        $.ajax({
+            url: "/selectFood",
+            type: "post",
+            data:{
+            },
+            success: function f(data) {
+                var length=data.length;
+                var pdtb=$("#pdtb");
+                for(var i=0;i<length;i++){
+                    aptb+=" <tr>"+
+                        "<td><img style=\"width: 20%\"  src="+'dist/img/'+data[i].foodFile+"/></td>"+
+                        "<td id='foodname"+ i +"'>"+data[i].foodName+"</td>"+
+                        "<td id='foodcost"+i+"'>"+data[i].foodCost+"</td>"+
+                        "<td><input type='text' name='count' value='0' id='count"+ i +"'  readonly='readonly'></td>"+
+                        "<td><a href=\"#\" onclick='f("+ i +")'> 加一</a> "+
+                        "<a      href=\"#\" onclick='f2("+ i +")'> 减一</a></td>"+
+                        "</tr>"  ;
+                }
+                pdtb.html(aptb);
+            }
+        });
+    }
+    function f(i) {
+        var count=$("#count"+ i).val();
+        count = parseInt(count);
+        count=count+1;
+        $("#count"+ i).val(count);
+       var foodname=document.getElementById("foodname"+i).innerHTML;
+       var foodcost=document.getElementById("foodcost"+i).innerHTML;
+        $.ajax({
+            url: "/insertOrderFood",
+            type: "post",
+            data:{orderFoodname:foodname,
+                orderFoodcount:count,
+                orderOneprice:foodcost
+            },
+            success: function f(data) {
+                if (data.msg==1){
+                    alert("减餐成功");
+                }
+            }
+        });
+    }
+    function f2(i) {
+        var  count=$("#count"+ i).val();
+        count = parseInt(count);
+
+        if (count==0){
+            alert("不能再减了，已经没有了");
+        }else {
+            count=count-1;
+        }
+        $("#count" + i).val(count);
+        var foodname=document.getElementById("foodname"+i).innerHTML;
+        var foodcost=document.getElementById("foodcost"+i).innerHTML;
+        $.ajax({
+            url: "/deleteOrderFood",
+            type: "post",
+            data:{orderFoodname:foodname,
+                orderFoodcount:count,
+                orderOneprice:foodcost
+            },
+            success: function f(data) {
+              if (data.msg==1){
+                  alert("减餐成功");
+              }
+            }
+        });
+    }
+
+</script>
+
 <script src="dist/js/scripts.js"></script>
 <script src="dist/js/custom.js"></script>
 <script src="dist/js/demo.js"></script>

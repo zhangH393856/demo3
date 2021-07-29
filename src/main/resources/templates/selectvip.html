@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+        name="viewport">
+  <title>用户页面</title>
+
+  <link rel="stylesheet" href="dist/modules/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="dist/modules/ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+  <link rel="stylesheet" href="dist/modules/summernote/summernote-lite.css">
+  <link rel="stylesheet" href="dist/modules/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="dist/css/demo.css">
+  <link rel="stylesheet" href="dist/css/style.css">
+</head>
+
+<body>
+<div id="app">
+  <div class="main-wrapper">
+    <div class="navbar-bg"></div>
+    <nav class="navbar navbar-expand-lg main-navbar">
+      <form class="form-inline mr-auto">
+        <ul class="navbar-nav mr-3">
+          <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                  class="ion ion-navicon-round"></i></a></li>
+          <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
+                  class="ion ion-search"></i></a></li>
+        </ul>
+      </form>
+      <ul class="navbar-nav navbar-right">
+        <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg">
+          <i class="ion ion-android-person d-lg-none"></i>
+          <div class="d-sm-none d-lg-inline-block" th:text="${session.name}"></div>
+        </a>
+
+        </li>
+      </ul>
+    </nav>
+    <div class="main-sidebar">
+      <aside id="sidebar-wrapper">
+
+        <div class="sidebar-user">
+          <div class="sidebar-user-picture">
+            <img alt="image" src="dist/img/avatar/avatar-1.jpeg">
+          </div>
+          <div class="sidebar-user-details">
+            <div class="user-name"></div>
+            <div class="user-role" th:text="${session.name}">
+            </div>
+          </div>
+        </div>
+        <ul class="sidebar-menu" th:replace="index::menu"></ul>
+
+        <div class="p-3 mt-4 mb-4">
+          <a href="/openselectfood"
+             class="btn btn-primary btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+            <i class="ion ion-android-restaurant"></i>
+            <div>点餐</div>
+          </a>
+          <a href="/openselectfood1"
+             class="btn btn-warning btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+            <i class="ion ion-android-cart"></i>
+            <div>早餐购物车</div>
+          </a>
+          <a href="/openselectvip"
+             class="btn btn-info btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+            <i class="ion ion-ios-home"></i>
+            <div>升级会员</div>
+          </a>
+
+
+          <a th:href="@{applyhouse(name=${session.name})}"
+             class="btn btn-success btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+            <i class="ion ion-ios-home"></i>
+            <div>申请入住</div>
+          </a>
+          <a th:href="@{leavehouse(name=${session.name})}"
+             class="btn btn-info btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+            <i class="ion ion-ios-home-outline"></i>
+            <div>退房</div>
+          </a>
+        </div>
+        <div class="p-3 mt-4 mb-4">
+          <a href="/move" class="btn btn-danger btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+            <i class="ion ion-help-buoy"></i>
+            <div>退出登录</div>
+          </a>
+        </div>
+
+      </aside>
+    </div>
+    <div class="main-content">
+      <section class="section">
+        <h1 class="section-header">
+          <div>主页</div>
+        </h1>
+        <div class="row">
+          <h1 class="section-header">
+<!--            <div style="color: #b3d7ff" >-->
+<!--              <span th:text="${action.getGiftTitle()}"></span>：<br>-->
+<!--              <span th:if="${action.getGift200()!=0}"> 充200元送<span th:text="${action.getGift200()}" ></span>元</br></span>-->
+<!--              <span th:if="${action.getGift500()!=0}"> 充500元送<span th:text="${action.getGift500()}" ></span>元</br></span>-->
+<!--              <span th:if="${action.getGift800()!=0}"> 充800元送<span th:text="${action.getGift800()}" ></span>元</br></span>-->
+<!--              <span th:if="${action.getGift1000()!=0}"> 充1000元送<span th:text="${action.getGift1000()}" ></span>元</br></span>-->
+<!--              <span th:if="${action.getGift1500()!=0}"> 充1500元送<span th:text="${action.getGift1500()}" ></span>元</br></span>-->
+<!--              <span th:if="${action.getGift2000()!=0}"> 充2000元送<span th:text="${action.getGift2000()}" ></span>元</br></span>-->
+
+<!--            </div>-->
+          </h1>
+        </div>
+        <div class="row">
+          <h1 class="section-header">
+            <div style="color: #1e7e34">会员办理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            </br>
+          </h1>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <a th:href="@{selectCardMoney(name='黄金卡')}">
+              <div class="card card-sm  bg-success">
+                  <img style="width: 100%"  src="dist/img/huangjin.png">
+                <div class="card-wrap">
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <a th:href="@{selectCardMoney(name='铂金卡')}">
+              <div class="card card-sm bg-success">
+                  <img  style="width: 100%"  src="dist/img/bojin.png">
+                <div class="card-wrap">
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <a th:href="@{selectCardMoney(name='钻石卡')}">
+              <div class="card card-sm bg-success">
+                  <img style="width: 100%" src="dist/img/zuanshi.png">
+                <div class="card-wrap">
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-3">
+            <a th:href="@{selectCardMoney(name='黑金尊享')}">
+              <div class="card card-sm bg-success">
+                  <img   style="width: 100%"  src="dist/img/hwijin.png">
+                <div class="card-wrap">
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </section>
+    </div>
+    <footer class="main-footer">
+      <div class="footer-left">
+        Copyright &copy; 2018
+        <div class="bullet"></div>
+        More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from
+        <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+      </div>
+      <div class="footer-right"></div>
+    </footer>
+  </div>
+</div>
+
+<script src="dist/modules/jquery.min.js"></script>
+<script src="dist/modules/popper.js"></script>
+<script src="dist/modules/tooltip.js"></script>
+<script src="dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="dist/js/sa-functions.js"></script>
+
+<script src="dist/modules/chart.min.js"></script>
+<script src="dist/modules/summernote/summernote-lite.js"></script>
+
+<script>
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      datasets: [{
+        label: 'Statistics',
+        data: [460, 458, 330, 502, 430, 610, 488],
+        borderWidth: 2,
+        backgroundColor: 'rgb(87,75,144)',
+        borderColor: 'rgb(87,75,144)',
+        borderWidth: 2.5,
+        pointBackgroundColor: '#ffffff',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      legend: {
+        display: false
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            stepSize: 150
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            display: false
+          }
+        }]
+      },
+    }
+  });
+</script>
+<script src="dist/js/scripts.js"></script>
+<script src="dist/js/custom.js"></script>
+<script src="dist/js/demo.js"></script>
+</body>
+</html>

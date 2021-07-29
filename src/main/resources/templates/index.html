@@ -92,11 +92,19 @@
                     <li th:if="${session.name} eq admin or  ${session.name} eq boss ">
                         <a href="#" class="has-dropdown"><i class="ion ion-gear-b"></i><span>系统管理</span></a>
                         <ul class="menu-dropdown">
+<<<<<<< HEAD
 
+=======
+                            <li th:if="${session.name} eq admin"><a href="/openinsertfood1"><i class="ion ion-android-happy"></i>添加餐品</a></li>
+>>>>>>> 35f0066... 这是一次相对完整的更新
                             <li th:if="${session.name} eq admin" ><a href="/openuserpower"><i class="ion ion-social-yen-outline"></i>用户消费</a></li>
                             <li><a href="/openinsertnotice"><i class="ion ion-ios-calendar-outline"></i>添加公告</a></li>
                             <li th:if="${session.name} eq boss"><a href="/selectaction"><i class="ion ion-android-happy"></i>活动设置</a></li>
                             <li th:if="${session.name} eq admin"><a href="/adminaction"><i class="ion ion-android-happy"></i>优惠活动</a></li>
+<<<<<<< HEAD
+=======
+                            <li th:if="${session.name} eq boss  or ${session.name} eq admin"><a href="/selectvip"><i class="ion ion-android-happy"></i>会员卡设置</a></li>
+>>>>>>> 35f0066... 这是一次相对完整的更新
                             <li><a href="/selectEnergy"><i class="ion ion-ios-paper"></i>支付记录</a></li>
                             <li><a th:href="@{selectEnergyState(energyState=已支付)}"><i
                                     class="ion ion-social-yen"></i>已支付</a></li>
@@ -114,6 +122,16 @@
                             <li><a th:href="@{Blance(userName=${session.name})}"><i class="ion ion-social-freebsd-devil"></i>余额</a></li>
                         </ul>
                     </li>
+<<<<<<< HEAD
+=======
+                    <li th:if="${session.name} ne admin and ${session.name} ne boss">
+                        <a href="#" class="has-dropdown"><i class="ion ion-ios-copy-outline"></i><span>餐品管理</span></a>
+                        <ul class="menu-dropdown">
+                            <li><a th:href="@{yesfood(name=${session.name})}"><i class="ion ion-social-yen-outline"></i>已上餐品</a></li>
+                            <li><a th:href="@{nofood(name=${session.name})}"><i class="ion ion-social-yen-outline"></i>未上餐品</a></li>
+                         </ul>
+                    </li>
+>>>>>>> 35f0066... 这是一次相对完整的更新
                 </ul>
                 <div class="p-3 mt-4 mb-4">
                     <a href="/move" class="btn btn-danger btn-shadow btn-round has-icon has-icon-nofloat btn-block">
@@ -186,7 +204,10 @@
                             <tr>
                                 <th>id</th>
                                 <th>用户名</th>
+<<<<<<< HEAD
                                 <th>密码</th>
+=======
+>>>>>>> 35f0066... 这是一次相对完整的更新
                                 <th>电话</th>
 
                                 <th>操作</th>
@@ -195,13 +216,39 @@
 
                                 <td th:text="${user.userId}"></td>
                                 <td th:text="${user.userName}"></td>
+<<<<<<< HEAD
                                 <td th:text="${user.userPwd}"></td>
+=======
+>>>>>>> 35f0066... 这是一次相对完整的更新
                                 <td th:text="${user.userPhone}"></td>
                                 <td th:if="${session.name} eq admin"> <a th:href="@{userInformation(userName=${user.userName})}" class="btn btn-outline-success">办理</a> <a th:href="@{refuseuserapply(name=${user.userName})}" class="btn btn-outline-danger">拒绝</a> </td>
                             </tr>
                         </table>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+                <div class="card-body" th:if="${session.name} eq admin">
+                    <div class="table-responsive">
+                        <div class="card-header">
+                            <h4><a href="/selectupfood">点餐用户(点击刷新)</a></h4>
+                        </div>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>用户名</th>
+                                <th>手机号</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr th:each="user:${userlist}">
+
+                                <td th:text="${user.userName}"></td>
+                                <td th:text="${user.userPhone}"></td>
+                                <td th:if="${session.name} eq admin"> <a th:href="@{selectuserfood(name=${user.userName})}" class="btn btn-outline-success">查看详细餐单</a> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+>>>>>>> 35f0066... 这是一次相对完整的更新
                 <div class="card-body">
                     <div class="table-responsive">
                         <div class="card-header">

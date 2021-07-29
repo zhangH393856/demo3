@@ -20,35 +20,26 @@
       <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
           <div class="login-brand">
-<<<<<<< HEAD
-            缴费
+           添加餐品
           </div>
 
           <div class="card card-primary">
-            <div class="card-header"><h4>Register</h4></div>
-=======
-            消费
-          </div>
+            <div class="card-header"><h4>餐品</h4></div>
 
-          <div class="card card-primary">
-            <div class="card-header"><h4>消费单</h4></div>
->>>>>>> 35f0066... 这是一次相对完整的更新
             <div class="card-body">
-              <form method="POST" action="/updatepay">
-                <input type="hidden" name="energyId" th:value="${list.getEnergyId()}" >
-                <input type="hidden" name="userName" th:value="${list.getEnergyUsername()}">
+              <form method="POST" action="/insertFood" name="myForm" onsubmit="return validateForm();">
                 <div class="form-group">
-                  <label >用户名</label>
-                  <input  type="text" class="form-control" name="energyUsername" th:value="${list.getEnergyUsername()}" readonly="readonly">
+                  <label >餐品名</label>
+                  <input  type="text" class="form-control" name="foodName">
+                  <p style="color: red"  th:text="${list}" th:if="${not #strings.isEmpty(list)}"></p>
                   <div class="invalid-feedback">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>消费</label>
-                  <input  type="text" class="form-control" name="paymoney" th:value="${list.getEnergyPrice()}" readonly="readonly">
+                  <label>价格</label>
+                  <input  type="text" class="form-control" name="foodCost">
                   <div class="invalid-feedback">
                   </div>
-                  <p style="color: red"  th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary btn-block">
@@ -66,7 +57,53 @@
     </div>
   </section>
 </div>
+<script>
+  function validateForm(){
+    var name=document.forms["myForm"]["userName"].value;
+    var password=document.forms["myForm"]["userPwd"].value;
+    var phone=document.forms["myForm"]["userPhone"].value;
+    var phones = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+    var iNow = 0;
+    if (name==null || name=="")
+    {
+      alert("用户名不能为空");
+      return false;
+    }
+    if (password==null || password==""){
+      alert("密码不能为空");
+      return  false;
+    }else{
+      if (password.match(/\s/)) {
+        return false;
+      }
+      if (password.match(/[\u4E00-\u9FA5]/g)) {
+        return false;
+      }
+      if(password.match(/[0-9]/g)){
+        iNow++;
+      }
+      if(password.match(/[a-z]/ig)){
+        iNow++;
+      }
+      if(password.match(/[~!@#$%^&*]/g)){
+        iNow++;
+      }
+      if(iNow < 2){
+        alert("密码必须包含数字，字母，及特殊符号");
+        return false;
+      }}
+    if (phone==null&&phone==""){
+      return  false;
+    }else{
+      if (!phones.test(phone)){
+        alert("请输入正确的手机号");
+        return false;
+      }
+    }
 
+    return  true;
+  }
+</script>
 <script src="dist/modules/jquery.min.js"></script>
 <script src="dist/modules/popper.js"></script>
 <script src="dist/modules/tooltip.js"></script>
