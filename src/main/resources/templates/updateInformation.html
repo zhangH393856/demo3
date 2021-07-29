@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+  <title>Examples &rsaquo; Register &mdash; Stisla</title>
+
+  <link rel="stylesheet" href="dist/modules/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="dist/modules/ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+  <link rel="stylesheet" href="dist/css/demo.css">
+  <link rel="stylesheet" href="dist/css/style.css">
+</head>
+
+<body>
+<div id="app">
+  <section class="section">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+          <div class="login-brand">
+            个人信息修改
+          </div>
+
+          <div class="card card-primary">
+            <div class="card-header"><h4>个人信息修改</h4></div>
+            <div class="card-body">
+              <form method="POST" action="/updateInformations" name="myForm" onsubmit="return validateForm();">
+                <input type="hidden" name="userId" th:value="${lists.get(0).getUserId()}">
+                <div class="form-group">
+                  <label >Name</label>
+                  <input  type="text" class="form-control" name="userName" th:value="${lists.get(0).getUserName()}" readonly="readonly">
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>密码</label>
+                  <input  type="text" class="form-control" name="userPwd" th:value="${lists.get(0).getUserPwd()}">
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>手机号</label>
+                  <input  type="text" class="form-control" name="userPhone" th:value="${lists.get(0).getUserPhone()}">
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block">
+                    提交
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="simple-footer">
+            Copyright &copy; Stisla 2018
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+  function validateForm(){
+    var name=document.forms["myForm"]["userName"].value;
+    var password=document.forms["myForm"]["userPwd"].value;
+    var phone=document.forms["myForm"]["userPhone"].value;
+    var phones = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+    var iNow = 0;
+    if (name==null || name=="")
+    {
+      alert("用户名不能为空");
+      return false;
+    }
+    if (password==null || password==""){
+      alert("密码不能为空");
+      return  false;
+    }else{
+      if (password.match(/\s/)) {
+        return false;
+      }
+      if (password.match(/[\u4E00-\u9FA5]/g)) {
+        return false;
+      }
+      if(password.match(/[0-9]/g)){
+        iNow++;
+      }
+      if(password.match(/[a-z]/ig)){
+        iNow++;
+      }
+      if(password.match(/[~!@#$%^&*]/g)){
+        iNow++;
+      }
+      if(iNow < 2){
+        alert("密码必须包含数字，字母，及特殊符号");
+        return false;
+      }}
+    if (phone==null&&phone==""){
+      return  false;
+    }else{
+      if (!phones.test(phone)){
+        alert("请输入正确的手机号");
+        return false;
+      }
+    }
+
+    return  true;
+  }
+</script>
+<script src="dist/modules/jquery.min.js"></script>
+<script src="dist/modules/popper.js"></script>
+<script src="dist/modules/tooltip.js"></script>
+<script src="dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="dist/modules/moment.min.js"></script>
+<script src="dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="dist/js/sa-functions.js"></script>
+
+<script src="dist/js/scripts.js"></script>
+<script src="dist/js/custom.js"></script>
+<script src="dist/js/demo.js"></script>
+</body>
+</html>

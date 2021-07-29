@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.power.mapper.RechargeTableMapper" >
+  <resultMap id="BaseResultMap" type="com.power.pojo.RechargeTable" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="recharge_count" property="rechargeCount" jdbcType="INTEGER" />
+    <result column="recharge_time" property="rechargeTime" jdbcType="VARCHAR" />
+    <result column="recharge_userName" property="rechargeUsername" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, recharge_count, recharge_time, recharge_userName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.power.pojo.RechargeTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recharge_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from recharge_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recharge_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.power.pojo.RechargeTableExample" >
+    delete from recharge_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.power.pojo.RechargeTable" >
+    insert into recharge_table (id, recharge_count, recharge_time, 
+      recharge_userName)
+    values (#{id,jdbcType=INTEGER}, #{rechargeCount,jdbcType=INTEGER}, #{rechargeTime,jdbcType=VARCHAR}, 
+      #{rechargeUsername,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.power.pojo.RechargeTable" >
+    insert into recharge_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rechargeCount != null" >
+        recharge_count,
+      </if>
+      <if test="rechargeTime != null" >
+        recharge_time,
+      </if>
+      <if test="rechargeUsername != null" >
+        recharge_userName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeCount != null" >
+        #{rechargeCount,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeTime != null" >
+        #{rechargeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeUsername != null" >
+        #{rechargeUsername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.power.pojo.RechargeTableExample" resultType="java.lang.Integer" >
+    select count(*) from recharge_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update recharge_table
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargeCount != null" >
+        recharge_count = #{record.rechargeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargeTime != null" >
+        recharge_time = #{record.rechargeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rechargeUsername != null" >
+        recharge_userName = #{record.rechargeUsername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update recharge_table
+    set id = #{record.id,jdbcType=INTEGER},
+      recharge_count = #{record.rechargeCount,jdbcType=INTEGER},
+      recharge_time = #{record.rechargeTime,jdbcType=VARCHAR},
+      recharge_userName = #{record.rechargeUsername,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.power.pojo.RechargeTable" >
+    update recharge_table
+    <set >
+      <if test="rechargeCount != null" >
+        recharge_count = #{rechargeCount,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeTime != null" >
+        recharge_time = #{rechargeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeUsername != null" >
+        recharge_userName = #{rechargeUsername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.power.pojo.RechargeTable" >
+    update recharge_table
+    set recharge_count = #{rechargeCount,jdbcType=INTEGER},
+      recharge_time = #{rechargeTime,jdbcType=VARCHAR},
+      recharge_userName = #{rechargeUsername,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

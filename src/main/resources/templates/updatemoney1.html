@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+    <title>Examples &rsaquo; Register &mdash; Stisla</title>
+
+    <link rel="stylesheet" href="dist/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="dist/css/demo.css">
+    <link rel="stylesheet" href="dist/css/style.css">
+</head>
+
+<body>
+<div id="app">
+    <section class="section">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+                    <div class="login-brand">
+                        充值
+                    </div>
+
+                    <div class="card card-primary">
+                        <div class="card-header"><h4>充值</h4></div>
+                        <div class="card-body">
+                            <form method="POST" action="/updatemoney" name="myForm" onsubmit="return validateForm();">
+                                <input type="hidden" name="userId" th:value="${list.get(0).getUserId()}" >
+                                <div class="form-group">
+                                    <label >用户名</label>
+                                    <input  type="text" class="form-control" name="userName" th:value="${list.get(0).getUserName()}" readonly="readonly">
+                                    <div class="invalid-feedback">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>充值金额</label>
+                                    <input  type="text" class="form-control" name="userBalance">
+                                    <div class="invalid-feedback">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-3 col-lg-6 mb-5">
+                                        <div class="country" data-name="American Samoa" data-continent="Oceania">
+                                            <div class="mb-2" title="American Samoa">
+                                                <span class="badge badge-primary">支付宝支付</span>
+                                            </div>
+                                            <img class="img-fluid" src="../dist/img/wechat3.png" alt="American Samoa Flag">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 col-lg-6 mb-5">
+                                        <div class="country" data-name="American Samoa" data-continent="Oceania">
+                                            <div class="mb-2" title="American Samoa">
+                                                <span class="badge badge-primary">微信支付</span>
+
+                                            </div>
+                                            <img class="img-fluid" src="../dist/img/wechat4.png" alt="American Samoa Flag">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        提交
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="simple-footer">
+                        Copyright &copy; Stisla 2018
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    function validateForm(){
+        var money=document.forms["myForm"]["userBalance"].value;
+        var iNow = /^[1-9]\d*$/;
+        if(money==null || money==""){
+            alert("充值金额不能为空！！");
+            return false;}
+        if (!iNow.test(money)){
+            alert("充值金额必须是非零开头的整数金额");
+            return false;
+        }if (money<50){
+            alert("单次充值金额必须大于50");
+            return false;
+        }if(money%10!=0){
+            alert("不可充值零钱！充值金额个位数必须为0哦(例：60，100，1000...)");
+            return  false;
+        }
+        return  true;
+    }
+</script>
+<script src="dist/modules/jquery.min.js"></script>
+<script src="dist/modules/popper.js"></script>
+<script src="dist/modules/tooltip.js"></script>
+<script src="dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="dist/modules/moment.min.js"></script>
+<script src="dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="dist/js/sa-functions.js"></script>
+
+<script src="dist/js/scripts.js"></script>
+<script src="dist/js/custom.js"></script>
+<script src="dist/js/demo.js"></script>
+</body>
+</html>

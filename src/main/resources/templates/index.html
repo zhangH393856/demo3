@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+          name="viewport">
+    <title>Dashboard &mdash; Stisla</title>
+
+    <link rel="stylesheet" href="dist/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/modules/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="dist/modules/summernote/summernote-lite.css">
+    <link rel="stylesheet" href="dist/modules/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="dist/css/demo.css">
+    <link rel="stylesheet" href="dist/css/style.css">
+</head>
+
+<body>
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                            class="ion ion-navicon-round"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
+                            class="ion ion-search"></i></a></li>
+                </ul>
+
+            </form>
+            <ul class="navbar-nav navbar-right">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg">
+                    <i class="ion ion-android-person d-lg-none"></i>
+                    <div class="d-sm-none d-lg-inline-block" th:text="${session.name}"></div>
+                </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-sidebar">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-picture">
+                        <img alt="image" src="dist/img/avatar/avatar-1.jpeg">
+                    </div>
+                    <div class="sidebar-user-details">
+                        <div class="user-name"></div>
+                        <div class="user-role" th:text="${session.name}">
+                        </div>
+                    </div>
+                </div>
+                <ul class="sidebar-menu" th:fragment="menu">
+                    <li class="menu-header" th:text="${session.name}"></li>
+                    <li class="menu-header" th:if="${session.name} eq admin">管理员页面</li>
+                    <div class="p-3 mt-4 mb-4" th:if="${session.name} eq admin">
+                        <a href="/open" class="btn btn-success btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+                            <i class="ion ion-loop"></i>
+                            <div>主页</div>
+                        </a>
+                    </div>
+                    <div class="p-3 mt-4 mb-4" th:if="${session.name} eq boss">
+                        <a href="/open" class="btn btn-success btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+                            <i class="ion ion-loop"></i>
+                            <div>主页</div>
+                        </a>
+                    </div>
+                    <div class="p-3 mt-4 mb-4" th:if="${session.name} ne admin and ${session.name} ne boss">
+                        <a href="/openuser" class="btn btn-success btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+                            <i class="ion ion-loop"></i>
+                            <div>主页</div>
+                        </a>
+                    </div>
+                    <li th:if="${session.name} eq admin or  ${session.name} eq boss">
+                        <a href="#" class="has-dropdown"><i class="ion ion-person-stalker  "></i><span>用户信息</span></a>
+                        <ul class="menu-dropdown">
+                            <li><a href="/selectUser"><i class="ion ion-ios-person-outline"></i> 用户列表</a></li>
+                            <li th:if="${session.name} eq boss"><a href="/selectHouse"><i class="ion ion-social-tux"></i>用户住房信息</a></li>
+                        </ul>
+                    </li>
+                    <li th:if="${session.name} eq admin">
+                        <a href="#" class="has-dropdown"><i class="ion ion-ios-home"></i><span>住房管理</span></a>
+                        <ul class="menu-dropdown">
+                            <li><a href="/selectHouse"><i class="ion ion-social-tux"></i>用户住房信息</a></li>
+                            <li><a href="/selectunit"><i class="ion ion-social-twitter"></i>单元管理</a></li>
+                            <li><a href="/selectroom"><i class="ion ion-social-tux"></i>房间管理</a></li>
+
+                        </ul>
+                    </li>
+                    <li th:if="${session.name} eq admin or  ${session.name} eq boss ">
+                        <a href="#" class="has-dropdown"><i class="ion ion-gear-b"></i><span>系统管理</span></a>
+                        <ul class="menu-dropdown">
+
+                            <li th:if="${session.name} eq admin" ><a href="/openuserpower"><i class="ion ion-social-yen-outline"></i>用户消费</a></li>
+                            <li><a href="/openinsertnotice"><i class="ion ion-ios-calendar-outline"></i>添加公告</a></li>
+                            <li th:if="${session.name} eq boss"><a href="/selectaction"><i class="ion ion-android-happy"></i>活动设置</a></li>
+                            <li th:if="${session.name} eq admin"><a href="/adminaction"><i class="ion ion-android-happy"></i>优惠活动</a></li>
+                            <li><a href="/selectEnergy"><i class="ion ion-ios-paper"></i>支付记录</a></li>
+                            <li><a th:href="@{selectEnergyState(energyState=已支付)}"><i
+                                    class="ion ion-social-yen"></i>已支付</a></li>
+                            <li><a th:href="@{selectEnergyState(energyState=未支付)}"><i
+                                    class="ion ion-social-yen-outline"></i>未支付</a></li>
+                        </ul>
+                    </li>
+                    <li th:if="${session.name} ne admin and ${session.name} ne boss">
+                        <a href="#" class="has-dropdown"><i class="ion ion-ios-copy-outline"></i><span>个人信息管理</span></a>
+                        <ul class="menu-dropdown">
+                            <li><a th:href="@{selectRecharge(rechargeUsername=${session.name})}"><i class="ion ion-ios-paper"></i>缴费记录</a></li>
+                            <li><a th:href="@{selectEnergyState(energyUsername=${session.name},energyState=已支付)}"><i class="ion ion-social-yen"></i>已支付</a></li>
+                            <li><a th:href="@{selectEnergyState(energyUsername=${session.name},energyState=未支付)}"><i class="ion ion-social-yen-outline"></i>未支付</a></li>
+                            <li><a th:href="@{openupdateInformation(userName=${session.name})}"><i class="ion ion-person"></i>个人信息修改</a></li>
+                            <li><a th:href="@{Blance(userName=${session.name})}"><i class="ion ion-social-freebsd-devil"></i>余额</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="p-3 mt-4 mb-4">
+                    <a href="/move" class="btn btn-danger btn-shadow btn-round has-icon has-icon-nofloat btn-block">
+                        <i class="ion ion-close-circled"></i>
+                        <div>退出登录</div>
+                    </a>
+                </div>
+            </aside>
+        </div>
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>主页</div>
+                </h1>
+
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="card card-sm-3">
+                            <div class="card-icon bg-primary">
+                                <i class="ion ion-person"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>楼号</h4>
+                                </div>
+                                <div class="card-body">
+                                    1-3号楼
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="card card-sm-3">
+                            <div class="card-icon bg-danger">
+                                <i class="ion ion-ios-paper-outline"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>单元</h4>
+                                </div>
+                                <div class="card-body">
+                                    1-5单元
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="card card-sm-3">
+                            <div class="card-icon bg-warning">
+                                <i class="ion ion-paper-airplane"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>房间</h4>
+                                </div>
+                                <div class="card-body">
+                                    1-12号房间
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" th:if="${session.name} eq admin">
+                    <div class="table-responsive">
+                        <div class="card-header">
+                            <h4>用户入住申请</h4>
+                        </div>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>id</th>
+                                <th>用户名</th>
+                                <th>密码</th>
+                                <th>电话</th>
+
+                                <th>操作</th>
+                            </tr>
+                            <tr th:each="user:${list}">
+
+                                <td th:text="${user.userId}"></td>
+                                <td th:text="${user.userName}"></td>
+                                <td th:text="${user.userPwd}"></td>
+                                <td th:text="${user.userPhone}"></td>
+                                <td th:if="${session.name} eq admin"> <a th:href="@{userInformation(userName=${user.userName})}" class="btn btn-outline-success">办理</a> <a th:href="@{refuseuserapply(name=${user.userName})}" class="btn btn-outline-danger">拒绝</a> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="card-header">
+                            <h4>公告</h4>
+                        </div>
+                        <table class="table table-striped">
+                            <tr>
+
+                                <th>#</th>
+                                <th>标题</th>
+                                <th>内容</th>
+                                <th>发布时间</th>
+                                <th>操作</th>
+
+                            </tr>
+                            <tr th:each="notices:${noticelist}">
+                                <td th:text="${notices.noticeId}"></td>
+                                <td th:text="${notices.noticeTitle}"></td>
+                                <td><textarea  th:text="${notices.noticeContent}"></textarea ></td>
+                                <td th:text="${notices.noticeTime}"></td>
+                                <td > <a th:href="@{selectnoticeId(id=${notices.noticeId})}" class="btn btn-outline-warning">修改</a> <a th:href="@{deletenotice(id=${notices.noticeId})}" class="btn btn-outline-danger">删除</a> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            <div class="footer-left">
+                Copyright &copy; 2018
+                <div class="bullet"></div>
+                More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from
+                <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+            </div>
+            <div class="footer-right"></div>
+        </footer>
+    </div>
+</div>
+
+<script src="dist/modules/jquery.min.js"></script>
+<script src="dist/modules/popper.js"></script>
+<script src="dist/modules/tooltip.js"></script>
+<script src="dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="dist/js/sa-functions.js"></script>
+
+<script src="dist/modules/chart.min.js"></script>
+<script src="dist/modules/summernote/summernote-lite.js"></script>
+
+<script>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            datasets: [{
+                label: 'Statistics',
+                data: [460, 458, 330, 502, 430, 610, 488],
+                borderWidth: 2,
+                backgroundColor: 'rgb(87,75,144)',
+                borderColor: 'rgb(87,75,144)',
+                borderWidth: 2.5,
+                pointBackgroundColor: '#ffffff',
+                pointRadius: 4
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 150
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }]
+            },
+        }
+    });
+</script>
+<script src="dist/js/scripts.js"></script>
+<script src="dist/js/custom.js"></script>
+<script src="dist/js/demo.js"></script>
+</body>
+</html>

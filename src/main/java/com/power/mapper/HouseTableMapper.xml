@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.power.mapper.HouseTableMapper" >
+  <resultMap id="BaseResultMap" type="com.power.pojo.HouseTable" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="unit_id" property="unitId" jdbcType="VARCHAR" />
+    <result column="room_id" property="roomId" jdbcType="VARCHAR" />
+    <result column="static_name" property="staticName" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_consumption" property="userConsumption" jdbcType="INTEGER" />
+    <result column="user_inTime" property="userIntime" jdbcType="VARCHAR" />
+    <result column="user_outTime" property="userOuttime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, unit_id, room_id, static_name, user_name, user_consumption, user_inTime, user_outTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.power.pojo.HouseTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from house_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from house_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from house_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.power.pojo.HouseTableExample" >
+    delete from house_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.power.pojo.HouseTable" >
+    insert into house_table (id, unit_id, room_id, 
+      static_name, user_name, user_consumption, 
+      user_inTime, user_outTime)
+    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=VARCHAR}, #{roomId,jdbcType=VARCHAR}, 
+      #{staticName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userConsumption,jdbcType=INTEGER}, 
+      #{userIntime,jdbcType=VARCHAR}, #{userOuttime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.power.pojo.HouseTable" >
+    insert into house_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
+      <if test="roomId != null" >
+        room_id,
+      </if>
+      <if test="staticName != null" >
+        static_name,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userConsumption != null" >
+        user_consumption,
+      </if>
+      <if test="userIntime != null" >
+        user_inTime,
+      </if>
+      <if test="userOuttime != null" >
+        user_outTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="staticName != null" >
+        #{staticName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userConsumption != null" >
+        #{userConsumption,jdbcType=INTEGER},
+      </if>
+      <if test="userIntime != null" >
+        #{userIntime,jdbcType=VARCHAR},
+      </if>
+      <if test="userOuttime != null" >
+        #{userOuttime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.power.pojo.HouseTableExample" resultType="java.lang.Integer" >
+    select count(*) from house_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update house_table
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomId != null" >
+        room_id = #{record.roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staticName != null" >
+        static_name = #{record.staticName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userConsumption != null" >
+        user_consumption = #{record.userConsumption,jdbcType=INTEGER},
+      </if>
+      <if test="record.userIntime != null" >
+        user_inTime = #{record.userIntime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userOuttime != null" >
+        user_outTime = #{record.userOuttime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update house_table
+    set id = #{record.id,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=VARCHAR},
+      room_id = #{record.roomId,jdbcType=VARCHAR},
+      static_name = #{record.staticName,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_consumption = #{record.userConsumption,jdbcType=INTEGER},
+      user_inTime = #{record.userIntime,jdbcType=VARCHAR},
+      user_outTime = #{record.userOuttime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.power.pojo.HouseTable" >
+    update house_table
+    <set >
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        room_id = #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="staticName != null" >
+        static_name = #{staticName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userConsumption != null" >
+        user_consumption = #{userConsumption,jdbcType=INTEGER},
+      </if>
+      <if test="userIntime != null" >
+        user_inTime = #{userIntime,jdbcType=VARCHAR},
+      </if>
+      <if test="userOuttime != null" >
+        user_outTime = #{userOuttime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.power.pojo.HouseTable" >
+    update house_table
+    set unit_id = #{unitId,jdbcType=VARCHAR},
+      room_id = #{roomId,jdbcType=VARCHAR},
+      static_name = #{staticName,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_consumption = #{userConsumption,jdbcType=INTEGER},
+      user_inTime = #{userIntime,jdbcType=VARCHAR},
+      user_outTime = #{userOuttime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+  <title>Examples &rsaquo; Register &mdash; Stisla</title>
+
+  <link rel="stylesheet" href="dist/modules/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="dist/modules/ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+  <link rel="stylesheet" href="dist/css/demo.css">
+  <link rel="stylesheet" href="dist/css/style.css">
+</head>
+
+<body>
+<div id="app">
+  <section class="section">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+          <div class="login-brand">
+            用户帐单设置
+          </div>
+
+          <div class="card card-primary">
+            <div class="card-header"><h4>账单</h4></div>
+
+            <div class="card-body">
+              <form method="POST" action="/userpower"  name="myForm" onsubmit="return validateForm();">
+                <div class="form-group">
+                  <label>用户名</label>
+                  <input  type="text" class="form-control" name="energyUsername"  >
+                  <p style="color: red"  th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>天数</label>
+                  <input  type="text" class="form-control" name="energyYearmonth" >
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12">
+                    <label>费用类型</label>
+                    <select class="form-control" name="energyType">
+                      <option value="水费">水费</option>
+                      <option value="电费">电费</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>费用</label>
+                  <input  type="text" class="form-control" name="energyPrice">
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>数量(L(水)/KW(电))</label>
+                  <input  type="text" class="form-control" name="energyCount">
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block">
+                    提交
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="simple-footer">
+            Copyright &copy; Stisla 2018
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+  function validateForm(){
+    var name=document.forms["myForm"]["energyUsername"].value;
+    var yearmoth=document.forms["myForm"]["energyYearmonth"].value;
+    var price=document.forms["myForm"]["energyPrice"].value;
+    var count=document.forms["myForm"]["energyCount"].value;
+    var iNow = /^[1-9]\d*$/;
+    if (name==null || name=="")
+    {
+      alert("用户名不能为空");
+      return false;
+    }
+    if(yearmoth==null || yearmoth==""){
+      alert("天数不能为空");
+      return false;}
+    if(price==null || price==""){
+      alert("费用不能为空");
+      return false;}
+    if(count==null || count==""){
+      alert("用(水/电)量不能为空");
+      return false;}
+    if (!iNow.test(price)){
+      alert("费用必须是非零开头的正整数！！");
+      return false;
+    }
+    if (!iNow.test(yearmoth)){
+      alert("天数必须是非零开头的正整数！！");
+      return false;
+    }
+    if (!iNow.test(count)){
+      alert("(水量/电量)必须是非零开头的正整数！！");
+      return false;
+    }
+    return  true;
+  }
+</script>
+<script src="dist/modules/jquery.min.js"></script>
+<script src="dist/modules/popper.js"></script>
+<script src="dist/modules/tooltip.js"></script>
+<script src="dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="dist/modules/moment.min.js"></script>
+<script src="dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="dist/js/sa-functions.js"></script>
+
+<script src="dist/js/scripts.js"></script>
+<script src="dist/js/custom.js"></script>
+<script src="dist/js/demo.js"></script>
+</body>
+</html>

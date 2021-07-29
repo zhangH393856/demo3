@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+  <title>Examples &rsaquo; Register &mdash; Stisla</title>
+
+  <link rel="stylesheet" href="dist/modules/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="dist/modules/ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+  <link rel="stylesheet" href="dist/css/demo.css">
+  <link rel="stylesheet" href="dist/css/style.css">
+</head>
+
+<body>
+<div id="app">
+  <section class="section">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+          <div class="login-brand">
+            用户帐单设置
+          </div>
+
+          <div class="card card-primary">
+            <div class="card-header"><h4>账单</h4></div>
+
+            <div class="card-body">
+              <form method="POST" action="/userpowers">
+                <input name="energyId" type="hidden" th:value="${list.getEnergyId()}">
+                <div class="form-group">
+                  <label>用户名</label>
+                  <input  type="text" class="form-control" name="energyUsername" th:value="${list.getEnergyUsername()} " readonly="readonly" >
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>天数</label>
+                  <input  type="text" class="form-control" name="energyYearmonth" th:value="${list.getEnergyYearmonth()}" >
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12">
+                    <label>费用类型</label>
+                    <select class="form-control" name="energyType">
+                      <option value="水费">水费</option>
+                      <option value="电费">电费</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>费用</label>
+                  <input  type="text" class="form-control" name="energyPrice" th:value="${list.getEnergyPrice()}" >
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>数量(T(水)/KW(电))</label>
+                  <input  type="text" class="form-control" name="energyCount" th:value="${list.getEnergyCount()}" >
+                  <div class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block">
+                    提交
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="simple-footer">
+            Copyright &copy; Stisla 2018
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="dist/modules/jquery.min.js"></script>
+<script src="dist/modules/popper.js"></script>
+<script src="dist/modules/tooltip.js"></script>
+<script src="dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="dist/modules/moment.min.js"></script>
+<script src="dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="dist/js/sa-functions.js"></script>
+
+<script src="dist/js/scripts.js"></script>
+<script src="dist/js/custom.js"></script>
+<script src="dist/js/demo.js"></script>
+</body>
+</html>

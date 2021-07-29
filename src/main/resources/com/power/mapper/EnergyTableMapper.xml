@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.power.mapper.EnergyTableMapper" >
+  <resultMap id="BaseResultMap" type="com.power.pojo.EnergyTable" >
+    <id column="energy_id" property="energyId" jdbcType="INTEGER" />
+    <result column="energy_price" property="energyPrice" jdbcType="INTEGER" />
+    <result column="energy_userName" property="energyUsername" jdbcType="VARCHAR" />
+    <result column="energy_type" property="energyType" jdbcType="VARCHAR" />
+    <result column="energy_state" property="energyState" jdbcType="VARCHAR" />
+    <result column="energy_time" property="energyTime" jdbcType="VARCHAR" />
+    <result column="energy_yearmonth" property="energyYearmonth" jdbcType="INTEGER" />
+    <result column="energy_realMoney" property="energyRealmoney" jdbcType="INTEGER" />
+    <result column="energy_count" property="energyCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    energy_id, energy_price, energy_userName, energy_type, energy_state, energy_time, 
+    energy_yearmonth, energy_realMoney, energy_count
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.power.pojo.EnergyTableExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from energy_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from energy_table
+    where energy_id = #{energyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from energy_table
+    where energy_id = #{energyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.power.pojo.EnergyTableExample" >
+    delete from energy_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.power.pojo.EnergyTable" >
+    insert into energy_table (energy_id, energy_price, energy_userName, 
+      energy_type, energy_state, energy_time, 
+      energy_yearmonth, energy_realMoney, energy_count
+      )
+    values (#{energyId,jdbcType=INTEGER}, #{energyPrice,jdbcType=INTEGER}, #{energyUsername,jdbcType=VARCHAR}, 
+      #{energyType,jdbcType=VARCHAR}, #{energyState,jdbcType=VARCHAR}, #{energyTime,jdbcType=VARCHAR}, 
+      #{energyYearmonth,jdbcType=INTEGER}, #{energyRealmoney,jdbcType=INTEGER}, #{energyCount,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.power.pojo.EnergyTable" >
+    insert into energy_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="energyId != null" >
+        energy_id,
+      </if>
+      <if test="energyPrice != null" >
+        energy_price,
+      </if>
+      <if test="energyUsername != null" >
+        energy_userName,
+      </if>
+      <if test="energyType != null" >
+        energy_type,
+      </if>
+      <if test="energyState != null" >
+        energy_state,
+      </if>
+      <if test="energyTime != null" >
+        energy_time,
+      </if>
+      <if test="energyYearmonth != null" >
+        energy_yearmonth,
+      </if>
+      <if test="energyRealmoney != null" >
+        energy_realMoney,
+      </if>
+      <if test="energyCount != null" >
+        energy_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="energyId != null" >
+        #{energyId,jdbcType=INTEGER},
+      </if>
+      <if test="energyPrice != null" >
+        #{energyPrice,jdbcType=INTEGER},
+      </if>
+      <if test="energyUsername != null" >
+        #{energyUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="energyType != null" >
+        #{energyType,jdbcType=VARCHAR},
+      </if>
+      <if test="energyState != null" >
+        #{energyState,jdbcType=VARCHAR},
+      </if>
+      <if test="energyTime != null" >
+        #{energyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="energyYearmonth != null" >
+        #{energyYearmonth,jdbcType=INTEGER},
+      </if>
+      <if test="energyRealmoney != null" >
+        #{energyRealmoney,jdbcType=INTEGER},
+      </if>
+      <if test="energyCount != null" >
+        #{energyCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.power.pojo.EnergyTableExample" resultType="java.lang.Integer" >
+    select count(*) from energy_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update energy_table
+    <set >
+      <if test="record.energyId != null" >
+        energy_id = #{record.energyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.energyPrice != null" >
+        energy_price = #{record.energyPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.energyUsername != null" >
+        energy_userName = #{record.energyUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.energyType != null" >
+        energy_type = #{record.energyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.energyState != null" >
+        energy_state = #{record.energyState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.energyTime != null" >
+        energy_time = #{record.energyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.energyYearmonth != null" >
+        energy_yearmonth = #{record.energyYearmonth,jdbcType=INTEGER},
+      </if>
+      <if test="record.energyRealmoney != null" >
+        energy_realMoney = #{record.energyRealmoney,jdbcType=INTEGER},
+      </if>
+      <if test="record.energyCount != null" >
+        energy_count = #{record.energyCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update energy_table
+    set energy_id = #{record.energyId,jdbcType=INTEGER},
+      energy_price = #{record.energyPrice,jdbcType=INTEGER},
+      energy_userName = #{record.energyUsername,jdbcType=VARCHAR},
+      energy_type = #{record.energyType,jdbcType=VARCHAR},
+      energy_state = #{record.energyState,jdbcType=VARCHAR},
+      energy_time = #{record.energyTime,jdbcType=VARCHAR},
+      energy_yearmonth = #{record.energyYearmonth,jdbcType=INTEGER},
+      energy_realMoney = #{record.energyRealmoney,jdbcType=INTEGER},
+      energy_count = #{record.energyCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.power.pojo.EnergyTable" >
+    update energy_table
+    <set >
+      <if test="energyPrice != null" >
+        energy_price = #{energyPrice,jdbcType=INTEGER},
+      </if>
+      <if test="energyUsername != null" >
+        energy_userName = #{energyUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="energyType != null" >
+        energy_type = #{energyType,jdbcType=VARCHAR},
+      </if>
+      <if test="energyState != null" >
+        energy_state = #{energyState,jdbcType=VARCHAR},
+      </if>
+      <if test="energyTime != null" >
+        energy_time = #{energyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="energyYearmonth != null" >
+        energy_yearmonth = #{energyYearmonth,jdbcType=INTEGER},
+      </if>
+      <if test="energyRealmoney != null" >
+        energy_realMoney = #{energyRealmoney,jdbcType=INTEGER},
+      </if>
+      <if test="energyCount != null" >
+        energy_count = #{energyCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where energy_id = #{energyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.power.pojo.EnergyTable" >
+    update energy_table
+    set energy_price = #{energyPrice,jdbcType=INTEGER},
+      energy_userName = #{energyUsername,jdbcType=VARCHAR},
+      energy_type = #{energyType,jdbcType=VARCHAR},
+      energy_state = #{energyState,jdbcType=VARCHAR},
+      energy_time = #{energyTime,jdbcType=VARCHAR},
+      energy_yearmonth = #{energyYearmonth,jdbcType=INTEGER},
+      energy_realMoney = #{energyRealmoney,jdbcType=INTEGER},
+      energy_count = #{energyCount,jdbcType=INTEGER}
+    where energy_id = #{energyId,jdbcType=INTEGER}
+  </update>
+</mapper>
