@@ -20,19 +20,11 @@
       <div class="row">
         <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
           <div class="login-brand">
-<<<<<<< HEAD
+
             缴费
           </div>
-
-          <div class="card card-primary">
-            <div class="card-header"><h4>Register</h4></div>
-=======
-            消费
-          </div>
-
           <div class="card card-primary">
             <div class="card-header"><h4>消费单</h4></div>
->>>>>>> 35f0066... 这是一次相对完整的更新
             <div class="card-body">
               <form method="POST" action="/updatepay">
                 <input type="hidden" name="energyId" th:value="${list.getEnergyId()}" >
@@ -44,11 +36,14 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label>消费</label>
+                  <label>应付</label>
                   <input  type="text" class="form-control" name="paymoney" th:value="${list.getEnergyPrice()}" readonly="readonly">
                   <div class="invalid-feedback">
                   </div>
-                  <p style="color: red"  th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+                    <label>实付</label>
+                    <input  type="text" class="form-control" name="paymoney" th:value="${session.paymoney}" readonly="readonly">
+                    <div class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary btn-block">

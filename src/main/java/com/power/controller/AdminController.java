@@ -35,6 +35,8 @@ public class AdminController {
     FoodService foodService;
     @Autowired
     VipTypeService vipTypeService;
+    @Autowired
+    VipService vipService;
 
     @RequestMapping("login")
     //登录
@@ -61,11 +63,19 @@ public class AdminController {
 
     //打开用户页面
     @RequestMapping("openuser")
-    public String openUser(Model model) {
+    public String openUser(Model model,HttpSession session) {
         List<NoticeTable> noticeTables = adminService.selectNotice();
         GiftTable giftTable1 = adminService.selectGift();
         model.addAttribute("action", giftTable1);
         model.addAttribute("noticelist", noticeTables);
+       String name= (String) session.getAttribute("name");
+        List<VipsTable> vipsTables = vipService.selectVipsname(name);
+        if (vipsTables.size()>0){
+            session.setAttribute("state",vipsTables.get(0).getVipState());
+        }else {
+            session.setAttribute("state",null);
+        }
+
         return "user";
     }
 
@@ -101,6 +111,13 @@ public class AdminController {
             GiftTable giftTable1 = adminService.selectGift();
             model.addAttribute("action", giftTable1);
             model.addAttribute("noticelist", noticeTables);
+            List<VipsTable> vipsTables = vipService.selectVipsname(name);
+            if (vipsTables.size()>0){
+                session.setAttribute("state",vipsTables.get(0).getVipState());
+            }else{
+                session.setAttribute("state",null);
+            }
+
             return "user";
         } else {
             model.addAttribute("msg", "用户名或密码输入错误，请重新登录");

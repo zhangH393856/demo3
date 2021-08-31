@@ -1,10 +1,7 @@
 package com.power.controller;
 
 import com.power.pojo.*;
-import com.power.service.AdminService;
-import com.power.service.FoodService;
-import com.power.service.UserService;
-import com.power.service.VipTypeService;
+import com.power.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @ClassName: UserController
@@ -34,6 +29,8 @@ public class UserController {
     FoodService foodService;
     @Autowired
     VipTypeService vipTypeService;
+    @Autowired
+    VipService vipService;
 
     //查询个人信息
     @RequestMapping("userselectInfo")
@@ -101,9 +98,12 @@ public class UserController {
 
     //缴费查询
     @RequestMapping("selectpay")
-    public String selectpays(EnergyTable energyTable, Model model) {
+    public String selectpays(EnergyTable energyTable, Model model,HttpSession session) {
         EnergyTable selectpay = userService.selectpay(energyTable);
         model.addAttribute("list", selectpay);
+       String name= (String) session.getAttribute("name");
+        Double updatepaymoney = userService.updatepaymoney(name, selectpay.getEnergyPrice());
+        session.setAttribute("paymoney",updatepaymoney);
         return "pay";
     }
 
@@ -119,7 +119,7 @@ public class UserController {
 
     //缴费
     @RequestMapping("updatepay")
-    public String updatepay(EnergyTable energyTable, Model model, Integer paymoney, UserTable1 userTable1) {
+    public String updatepay(EnergyTable energyTable, Model model, Integer paymoney, UserTable1 userTable1,HttpSession session) {
         int updatepay = userService.updatepay(energyTable, paymoney, userTable1);
         if (updatepay > 0) {
             return "redirect:/openuser1";
@@ -200,16 +200,41 @@ public String updatepayvip(EnergyTable energyTable, Model model, Integer paymone
     public String openfoodpay(HttpSession session,Model model){
         Double countcost= foodService.countAll((String) session.getAttribute("name"));
         model.addAttribute("countcost",countcost);
+        Integer pays=countcost.intValue();
+        String name= (String) session.getAttribute("name");
+        Double updatepaymoney = userService.updatepaymoney(name, pays);
+        session.setAttribute("paymoney",updatepaymoney);
         return "foodpay";
+    }
+    @RequestMapping("updatepay2")
+    public String updatepay2( Model model, Double paymoney, UserTable1 userTable1,HttpSession session) {
+        userTable1.setUserName((String) session.getAttribute("name"));
+        int i=0;
+        i=paymoney.intValue();
+        int updatepay = userService.updatepay1(paymoney, userTable1);
+        Double updatepaymoney = userService.updatepaymoney(userTable1.getUserName(), i);
+        session.setAttribute("paymoney",updatepaymoney);
+        if (updatepay > 0) {
+            foodService.foodstate((String) session.getAttribute("name"));
+            model.addAttribute("msg", "订餐成功，请等待服务员上餐！");
+            return "success1";
+        } else {
+            model.addAttribute("msg", "帐户余额不足，请充值后再缴费");
+            return "payinfo";
+        }
     }
     //结算
     @RequestMapping("updatepay1")
     public String updatepay1( Model model, Double paymoney, UserTable1 userTable1,HttpSession session) {
         userTable1.setUserName((String) session.getAttribute("name"));
-        int updatepay = userService.updatepay1(paymoney, userTable1);
+        int i=0;
+        i=paymoney.intValue();
+        int updatepay = userService.updatepays(paymoney, userTable1);
         if (updatepay > 0) {
+          vipService.insertVipUser(userTable1.getUserName(),i);
             foodService.foodstate((String) session.getAttribute("name"));
-            return "redirect:/openuser1";
+            model.addAttribute("msg", "以为您开通会员，如果未显示您的会员身份，请重新登录账号！");
+            return "success1";
         } else {
             model.addAttribute("msg", "帐户余额不足，请充值后再缴费");
             return "payinfo";
@@ -244,9 +269,10 @@ public String updatepayvip(EnergyTable energyTable, Model model, Integer paymone
     }
     //会员缴费单
     @RequestMapping("selectCardMoney")
-    public String   selectCardMoney(String name,Model model){
+    public String   selectCardMoney(String name,Model model,HttpSession session){
         List<Double> doubles = vipTypeService.selectVipMoney(name);
         model.addAttribute("countcost",doubles.get(0).doubleValue());
-        return "foodpay";
+        return "vippay";
     }
+
 }

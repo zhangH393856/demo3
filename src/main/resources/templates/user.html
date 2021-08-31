@@ -29,10 +29,14 @@
                             class="ion ion-search"></i></a></li>
                 </ul>
             </form>
-            <ul class="navbar-nav navbar-right">
+            <ul class="navbar-nav navbar-right" th:fragment="right">
                 <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg">
                     <i class="ion ion-android-person d-lg-none"></i>
-                    <div class="d-sm-none d-lg-inline-block" th:text="${session.name}"></div>
+                    <div class="d-sm-none d-lg-inline-block"   th:if="${session.state} eq null"><h3  th:text="${session.name}"></h3></div>
+                    <div class="d-sm-none d-lg-inline-block" style="color: orange"  th:if="${session.state} eq 1"><h3 style="display: inline-block">（黄金会员）</h3><h3 style="display: inline-block" th:text="${session.name}"></h3></div>
+                    <div class="d-sm-none d-lg-inline-block" style="color: lightsteelblue"  th:if="${session.state} eq 2"><h3 style="display: inline-block">（铂金会员）</h3><h3 style="display: inline-block" th:text="${session.name}"></h3></div>
+                    <div class="d-sm-none d-lg-inline-block" style="color: dodgerblue"  th:if="${session.state} eq 3"><h3 style="display: inline-block">（钻石会员）</h3><h3 style="display: inline-block" th:text="${session.name}"></h3></div>
+                    <div class="d-sm-none d-lg-inline-block" style="color: darkslateblue"  th:if="${session.state} eq 4"><h3 style="display: inline-block">（黑金尊享会员）</h3><h3 style="display: inline-block" th:text="${session.name}"></h3></div>
                 </a>
 
                 </li>
@@ -45,10 +49,12 @@
                     <div class="sidebar-user-picture">
                         <img alt="image" src="dist/img/avatar/avatar-1.jpeg">
                     </div>
-                    <div class="sidebar-user-details">
-                        <div class="user-name"></div>
-                        <div class="user-role" th:text="${session.name}">
-                        </div>
+                    <div class="user-name" th:fragment="username">
+                        <div class="d-sm-none d-lg-inline-block"   th:if="${session.state} eq null"><h3  th:text="${session.name}"></h3></div>
+                        <div class="d-sm-none d-lg-inline-block" style="color: orange"  th:if="${session.state} eq 1"><h4 style="display: inline-block">（黄金会员）</h4><h4 style="display: inline-block" th:text="${session.name}"></h4></div>
+                        <div class="d-sm-none d-lg-inline-block" style="color: lightsteelblue"  th:if="${session.state} eq 2"><h4 style="display: inline-block">（铂金会员）</h4><h4 style="display: inline-block" th:text="${session.name}"></h4></div>
+                        <div class="d-sm-none d-lg-inline-block" style="color: dodgerblue"  th:if="${session.state} eq 3"><h4 style="display: inline-block">（钻石会员）</h4><h4 style="display: inline-block" th:text="${session.name}"></h4></div>
+                        <div class="d-sm-none d-lg-inline-block" style="color: darkslateblue"  th:if="${session.state   } eq 4"><h4 style="display: inline-block">（黑金尊享会员）</h4><h4 style="display: inline-block" th:text="${session.name}"></h4></div>
                     </div>
                 </div>
                 <ul class="sidebar-menu" th:replace="index::menu"></ul>

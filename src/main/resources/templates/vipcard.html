@@ -32,6 +32,7 @@
                 <div class="form-group">
                   <label>黄金卡</label>
                   <input  type="text" class="form-control" name="viptype1Price"  th:value="${vip.getViptype1Price()}">
+                  <label>折扣</label>
                   <input  type="text" class="form-control" name="discount1"  th:value="${vip.getDiscount1()}">
                   <div class="invalid-feedback">
                   </div>
@@ -39,6 +40,7 @@
                 <div class="form-group">
                   <label>铂金卡</label>
                   <input  type="text" class="form-control" name="viptype2Price" th:value="${vip.getViptype2Price()}">
+                  <label>折扣</label>
                   <input  type="text" class="form-control" name="discount2"  th:value="${vip.getDiscount2()}">
                   <div class="invalid-feedback">
                   </div>
@@ -46,6 +48,7 @@
                 <div class="form-group">
                   <label>钻石卡</label>
                   <input  type="text" class="form-control" name="viptype3Price" th:value="${vip.getViptype3Price()}">
+                  <label>折扣</label>
                   <input  type="text" class="form-control" name="discount3"  th:value="${vip.getDiscount3()}">
                   <div class="invalid-feedback">
                   </div>
@@ -53,6 +56,7 @@
                 <div class="form-group">
                   <label>黑金尊享</label>
                   <input  type="text" class="form-control" name="viptype4Price" th:value="${vip.getViptype4Price()}">
+                  <label>折扣</label>
                   <input  type="text" class="form-control" name="discount4"  th:value="${vip.getDiscount4()}">
                   <div class="invalid-feedback">
                   </div>
@@ -75,55 +79,32 @@
 </div>
 <script>
   function validateForm(){
-    var gift200=document.forms["myForm"]["gift200"].value;
-    var gift500=document.forms["myForm"]["gift500"].value;
-    var gift800=document.forms["myForm"]["gift800"].value;
-    var gift1000=document.forms["myForm"]["gift1000"].value;
-    var gift1500=document.forms["myForm"]["gift1500"].value;
-    var gift2000=document.forms["myForm"]["gift2000"].value;
-    var gifttitle=document.forms["myForm"]["giftTitle"].value;
-    var reg=/^([1-9]\d*|[0]{1,1})$/;
-    if (gifttitle==null||gifttitle==""){
-      alert("活动标题不能为空");
-      return false;
-    }
-    if (gift200==null || gift200=="")
+    var viptype1Price=document.forms["myForm"]["viptype1Price"].value;
+    var viptype2Price=document.forms["myForm"]["viptype2Price"].value;
+    var viptype3Price=document.forms["myForm"]["viptype3Price"].value;
+    var viptype4Price=document.forms["myForm"]["viptype4Price"].value;
+    var discount1=document.forms["myForm"]["discount1"].value;
+    var discount2=document.forms["myForm"]["discount2"].value;
+    var discount3=document.forms["myForm"]["discount3"].value;
+    var discount4=document.forms["myForm"]["discount4"].value;
+    var reg1=/^([1-9]\d*|[0]{1,1})$/;
+    var reg=/^[0-9]|10$/;
+    if (viptype1Price==null || viptype1Price==""||viptype2Price==null || viptype2Price==""||viptype3Price==null || viptype3Price==""||viptype4Price==null || viptype4Price=="")
     {
-      alert("充值200送金额活动不能为空");
+      alert("会员卡金额都不能为空");
       return false;
     }
-    if (gift200==null || gift200=="")
+    if (discount1==null || discount1==""||discount2==null || discount2==""||discount3==null || discount3==""||discount4==null || discount4=="")
     {
-      alert("充值200送金额活动不能为空");
+      alert("折扣不能为空");
       return false;
     }
-    if (gift500==null || gift500=="")
-    {
-      alert("充值500送金额活动不能为空");
-      return false;
+    if (!reg.test(discount1)||!reg.test(discount2)||!reg.test(discount3)||!reg.test(discount4)){
+      alert("折扣只能是0-10的整数");
+      return  false;
     }
-    if (gift1000==null || gift1000=="")
-    {
-      alert("充值800送金额活动不能为空");
-      return false;
-    }
-    if (gift1000==null || gift1000=="")
-    {
-      alert("充值1000送金额活动不能为空");
-      return false;
-    }
-    if (gift1500==null || gift1500=="")
-    {
-      alert("充值1500送金额活动不能为空");
-      return false;
-    }
-    if (gift2000==null || gift2000=="")
-    {
-      alert("充值2000送金额活动不能为空");
-      return false;
-    }
-    if (!reg.test(gift200)||!reg.test(gift500)||!reg.test(gift800)||!reg.test(gift1000)||!reg.test(gift1500)||!reg.test(gift2000)){
-      alert("金额只能为正整数或零");
+    if (!reg1.test(viptype1Price)||!reg1.test(viptype2Price)||!reg1.test(viptype3Price)||!reg1.test(viptype4Price)){
+      alert("会员卡金额不能为小数");
       return  false;
     }
     return  true;

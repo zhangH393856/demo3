@@ -27,7 +27,7 @@
             <div class="card-header"><h4>活动设置</h4></div>
 
             <div class="card-body">
-              <form method="POST" action="/updateaction" name="myForm" onsubmit="return validateForm();">
+              <form method="POST" action="/updateactions" name="myForm" onsubmit="return validateForm();">
                 <div class="form-group">
                   <label>活动标题</label>
                   <input  type="text" class="form-control" name="giftTitle"  th:value="${action.getGiftTitle()}">

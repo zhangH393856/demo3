@@ -26,7 +26,7 @@
           <div class="card card-primary">
             <div class="card-header"><h4>消费单</h4></div>
             <div class="card-body">
-              <form method="POST" action="/updatepay2">
+              <form method="POST" action="/updatepay1">
                 <div class="form-group">
                   <label >用户名</label>
                   <input  type="text" class="form-control" name="energyUsername" th:value="${session.name}" readonly="readonly">
@@ -36,10 +36,6 @@
                 <div class="form-group">
                   <label>消费</label>
                   <input  type="text" class="form-control" name="paymoney" th:value="${countcost}" readonly="readonly">
-                  <div class="invalid-feedback">
-                  </div>
-                  <label>实付</label>
-                  <input  type="text" class="form-control" name="paymoney" th:value="${session.paymoney}" readonly="readonly">
                   <div class="invalid-feedback">
                   </div>
                 </div>

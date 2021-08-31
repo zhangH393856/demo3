@@ -27,6 +27,10 @@ public class UserService {
     GiftTableMapper giftTableMapper;
     @Autowired
     HouseTableMapper houseTableMapper;
+    @Autowired
+    VipsTableMapper vipsTableMapper;
+    @Autowired
+    ViptypeTableMapper viptypeTableMapper;
 
     int i = 1;
 
@@ -47,11 +51,12 @@ public class UserService {
         userTable1Example.createCriteria().andUserNameLike("%" + userTable1.getUserName() + "%");
         return userTable1Mapper.selectByExample(userTable1Example);
     }
+
     //根据指定姓名查询
     public UserTable1 selectNames(String name) {
         UserTable1Example userTable1Example = new UserTable1Example();
         userTable1Example.createCriteria().andUserNameEqualTo(name);
-      return userTable1Mapper.selectByExample(userTable1Example).get(0);
+        return userTable1Mapper.selectByExample(userTable1Example).get(0);
     }
 
     //待入住用户
@@ -227,9 +232,28 @@ public class UserService {
         //获取该用户的余额
         userTable1Example.createCriteria().andUserNameEqualTo(userTable1.getUserName());
         List<UserTable1> userTable1s = userTable1Mapper.selectByExample(userTable1Example);
-        if (userTable1s.get(0).getUserBalance() > paymoney) {
+        VipsTableExample vipsTableExample = new VipsTableExample();
+        ViptypeTable viptypeTable = viptypeTableMapper.selectByPrimaryKey(10001);
+        if (userTable1s.get(0).getUserBalance() >= paymoney) {
+            int paymonay=10;
+            vipsTableExample.createCriteria().andVipUsernameEqualTo(userTable1.getUserName());
+            List<VipsTable> vipsTables = vipsTableMapper.selectByExample(vipsTableExample);
+            if (vipsTables.size() > 0&&vipsTables.get(0).getVipState()!=null) {
+                VipsTable vipsTable = vipsTables.get(0);
+                if (vipsTable.getVipState()==1){
+                    paymonay=viptypeTable.getDiscount1();
+                }else  if (vipsTable.getVipState()==1){
+                    paymonay=viptypeTable.getDiscount2();
+                }
+                else  if (vipsTable.getVipState()==3){
+                    paymonay=viptypeTable.getDiscount3();
+                }
+                else  if (vipsTable.getVipState()==4){
+                    paymonay=viptypeTable.getDiscount4();
+                }
+            }
             //扣费
-            userTable1.setUserBalance(userTable1s.get(0).getUserBalance() - paymoney);
+            userTable1.setUserBalance(userTable1s.get(0).getUserBalance() - paymoney*paymonay/10);
             userTable1.setUserId(userTable1s.get(0).getUserId());
             energyTable.setEnergyState("已支付");
             userTable1Mapper.updateByPrimaryKeySelective(userTable1);
@@ -238,36 +262,87 @@ public class UserService {
             return 0;
         }
     }
-    public int updatepay1( Double paymoney, UserTable1 userTable1) {
+
+    public int updatepay1(Double paymoney, UserTable1 userTable1) {
         UserTable1Example userTable1Example = new UserTable1Example();
         //获取该用户的余额
         userTable1Example.createCriteria().andUserNameEqualTo(userTable1.getUserName());
         List<UserTable1> userTable1s = userTable1Mapper.selectByExample(userTable1Example);
-        if (userTable1s.get(0).getUserBalance() > paymoney) {
+        VipsTableExample vipsTableExample = new VipsTableExample();
+        ViptypeTable viptypeTable = viptypeTableMapper.selectByPrimaryKey(10001);
+        if (userTable1s.get(0).getUserBalance() >= paymoney) {
+            Integer paymonay=10;
+            vipsTableExample.createCriteria().andVipUsernameEqualTo(userTable1.getUserName());
+            List<VipsTable> vipsTables = vipsTableMapper.selectByExample(vipsTableExample);
+            if (vipsTables.size() > 0&&vipsTables.get(0).getVipState()!=null) {
+                VipsTable vipsTable = vipsTables.get(0);
+                if (vipsTable.getVipState()==1){
+                    paymonay=viptypeTable.getDiscount1();
+                }else  if (vipsTable.getVipState()==2){
+                    paymonay=viptypeTable.getDiscount2();
+                }
+                else  if (vipsTable.getVipState()==3){
+                    paymonay=viptypeTable.getDiscount3();
+                }
+                else  if (vipsTable.getVipState()==4){
+                    paymonay=viptypeTable.getDiscount4();
+                }
+            }
+            //扣费
+            userTable1.setUserBalance((int) (userTable1s.get(0).getUserBalance() - paymoney*paymonay/10));
+            userTable1.setUserId(userTable1s.get(0).getUserId());
+            return userTable1Mapper.updateByPrimaryKeySelective(userTable1);
+        } else {
+            return 0;
+        }
+    }
+    public int updatepays(Double paymoney, UserTable1 userTable1) {
+        UserTable1Example userTable1Example = new UserTable1Example();
+        //获取该用户的余额
+        userTable1Example.createCriteria().andUserNameEqualTo(userTable1.getUserName());
+        List<UserTable1> userTable1s = userTable1Mapper.selectByExample(userTable1Example);
+        if (userTable1s.get(0).getUserBalance() >= paymoney) {
             //扣费
             userTable1.setUserBalance((int) (userTable1s.get(0).getUserBalance() - paymoney));
             userTable1.setUserId(userTable1s.get(0).getUserId());
-          return   userTable1Mapper.updateByPrimaryKeySelective(userTable1);
+            return userTable1Mapper.updateByPrimaryKeySelective(userTable1);
         } else {
             return 0;
         }
     }
     //会员扣费
-    public int updatepayvip( Integer paymoney, UserTable1 userTable1) {
+    public Double updatepaymoney(String name, Integer paymoney) {
         UserTable1Example userTable1Example = new UserTable1Example();
         //获取该用户的余额
-        userTable1Example.createCriteria().andUserNameEqualTo(userTable1.getUserName());
+        userTable1Example.createCriteria().andUserNameEqualTo(name);
         List<UserTable1> userTable1s = userTable1Mapper.selectByExample(userTable1Example);
-        if (userTable1s.get(0).getUserBalance() > paymoney) {
-            //扣费
-            userTable1.setUserBalance(userTable1s.get(0).getUserBalance() - paymoney);
-            userTable1.setUserId(userTable1s.get(0).getUserId());
-          return   userTable1Mapper.updateByPrimaryKeySelective(userTable1);
-        } else {
-            return 0;
+        VipsTableExample vipsTableExample = new VipsTableExample();
+        ViptypeTable viptypeTable = viptypeTableMapper.selectByPrimaryKey(10001);
+        double number=0;
+        if (userTable1s.get(0).getUserBalance() >= paymoney) {
+            double paymonay = 10;
+
+            vipsTableExample.createCriteria().andVipUsernameEqualTo(name);
+            List<VipsTable> vipsTables = vipsTableMapper.selectByExample(vipsTableExample);
+
+            if (vipsTables.size() > 0&&vipsTables.get(0).getVipState()!=null) {
+                VipsTable vipsTable = vipsTables.get(0);
+                if (vipsTable.getVipState() == 1) {
+                    paymonay = viptypeTable.getDiscount1();
+                } else if (vipsTable.getVipState() == 2) {
+                    paymonay = viptypeTable.getDiscount2();
+                } else if (vipsTable.getVipState() == 3) {
+                    paymonay = viptypeTable.getDiscount3();
+                } else if (vipsTable.getVipState() == 4) {
+                    paymonay = viptypeTable.getDiscount4();
+                }
+            }else {
+                paymonay=10;
+            }
+           number= paymoney*paymonay/10;
+
         }
-
-
+        return number;
     }
 
     /*
@@ -317,20 +392,25 @@ public class UserService {
         HouseTableExample houseTableExample = new HouseTableExample();
         houseTableExample.createCriteria().andUserNameEqualTo(name);
         List<HouseTable> houseTables = houseTableMapper.selectByExample(houseTableExample);
-        HouseTable houseTable = houseTables.get(0);
-        UserTable1 userTable1 = userTable1List.get(0);
-        if (!"已退房".equals(houseTable.getStaticName())) {
-            userTable1.setUserState("已退房");
-            userTable1.setUserUnit(" ");
-            userTable1.setUserRoom(" ");
-            userTable1.setUserBuilding(" ");
-            userTable1.setUserOuttime(DateUtil.getDate(new Date()));
-            houseTable.setUserOuttime(DateUtil.getDate(new Date()));
+        if (houseTables.size()>0){
+            HouseTable houseTable = houseTables.get(0);
+            UserTable1 userTable1 = userTable1List.get(0);
+            if (!"已退房".equals(houseTable.getStaticName())) {
+                userTable1.setUserState("已退房");
+                userTable1.setUserUnit(" ");
+                userTable1.setUserRoom(" ");
+                userTable1.setUserBuilding(" ");
+                userTable1.setUserOuttime(DateUtil.getDate(new Date()));
+                houseTable.setUserOuttime(DateUtil.getDate(new Date()));
 //            Integer intime=houseTable.getUserIntime().getTime();
 //            Integer outtime=houseTable.getUserOuttime().getTime();
-            houseTable.setStaticName("已退房");
-            houseTableMapper.updateByPrimaryKeySelective(houseTable);
-            return userTable1Mapper.updateByPrimaryKeySelective(userTable1);
+                houseTable.setStaticName("已退房");
+                houseTableMapper.updateByPrimaryKeySelective(houseTable);
+                return userTable1Mapper.updateByPrimaryKeySelective(userTable1);
+        }
+            else {
+                return 0;
+            }
         } else {
             return 0;
         }

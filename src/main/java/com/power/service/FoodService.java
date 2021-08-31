@@ -111,7 +111,6 @@ public class FoodService {
         if (orderfoodTables.size()>0){
             for (OrderfoodTable orderfoodTable:orderfoodTables) {
                 orderfoodTable.setOrderState(1);
-
                 orderfoodTableMapper.updateByPrimaryKey(orderfoodTable);
             }
         }
